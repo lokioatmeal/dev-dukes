@@ -1,0 +1,6 @@
+development:
+  password: [password_from_Shopify_store_private_app]
+  store: [dev-store-name.myshopify.com]
+  theme_id: [theme_id]
+  # bucket_size: 40
+  # refill_rate: 2
