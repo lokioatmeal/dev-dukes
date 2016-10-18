@@ -1,0 +1,204 @@
+<!-- /templates/page.ingredients.liquid -->
+
+<div class="ingredients-hero-container">
+  <div class="wrapper">
+    {{ 'ingredients-hero-headline.png' | asset_url | img_tag: 'We are on a mission' }}
+    <p>to Craft ridiculously flavorful smoked meats with the freshest ingredients possible</p>
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="ingredients-lead-container">
+    <p>When you season and marinate fresh meats with whole, roasted or diced ingredients from farms—not just dried spices—you get a fresher homemade flavor. It’s not the easiest way to do things, or the quickest, but we think you’ll agree you can taste the difference.<p>
+  </div>
+</div>
+
+
+
+{% assign this_product = all_products['hickory-peach-bbq'] %}
+<div class="ingredients-product-container ingredients-product-container__product-left">
+  <div class="wrapper {{ this_product.handle }}">
+
+    <div class="ingredients-product-container__copy-box">
+      <div>
+        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Hickory Smoked Peaches</h3>
+        <p class="lead">The freshest, plumpest, and juiciest peaches are sourced from orchards in Northern California. They are diced and other fresh spices are combined to create a signature barbecue relish. The Shorty® Sausages are then slow-smoked with 100% real hickory hardwood for a rustic and naturally sweet flavor.</p>
+        {{ 'ingredients-product-hickory-peach-bbq.png' | asset_url | img_tag }}
+      </div>
+    </div>
+    <div class="product-grid-item-container">
+      <a href="{{ this_product.url | within: collection }}" class="grid__image">
+        <img src="{{ this_product.featured_image.src | img_url: 'large' }}" alt="{{ this_product.featured_image.alt | escape }}">
+      </a>
+      <ul>
+        <li><a href="{{ this_product.url | within: collection }}">Learn More</a></li>
+{% comment %}
+        <li>
+          <form action="/cart/add" method="post" class="clearfix" id="product-form-{{ this_product.id }}">
+            <input type="hidden" name="id" value="{{ this_product.variants.first.id }}" />
+            {% if this_product.available %}
+            <button type="submit" name="add" id="add-to-cart">Add To Cart</button>
+            {% endif %}
+          </form>
+        </li>
+{% endcomment %}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+
+{% assign this_product = all_products['hatch-green-chile'] %}
+<div class="ingredients-product-container ingredients-product-container__product-right">
+  <div class="wrapper {{ this_product.handle }}">
+
+    <div class="ingredients-product-container__copy-box">
+      <div>
+        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Hatch Green Chiles</h3>
+        <p class="lead">We partner with farmers in the heart of the Hatch Valley in New Mexico for the finest chiles at the peak of ripeness. They are flame roasted and diced before we add them to our Shortys®. The real green chile oils bring a smokey flavor and a just-right heat that can't be faked with dried spices.</p>
+        {{ 'ingredients-product-hatch-green-chile.png' | asset_url | img_tag }}
+      </div>
+    </div>
+    <div class="product-grid-item-container">
+      <a href="{{ this_product.url | within: collection }}" class="grid__image">
+        <img src="{{ this_product.featured_image.src | img_url: 'large' }}" alt="{{ this_product.featured_image.alt | escape }}">
+      </a>
+      <ul>
+        <li><a href="{{ this_product.url | within: collection }}">Learn More</a></li>
+{% comment %}
+        <li>
+          <form action="/cart/add" method="post" class="clearfix" id="product-form-{{ this_product.id }}">
+            <input type="hidden" name="id" value="{{ this_product.variants.first.id }}" />
+            {% if this_product.available %}
+            <button type="submit" name="add" id="add-to-cart">Add To Cart</button>
+            {% endif %}
+          </form>
+        </li>
+{% endcomment %}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="hatch-nm-vdeo-container hide">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid__item large--two-thirds">
+        <img src="//placekitten.com/g/800/400" />
+      </div>
+      <div class="grid__item large--one-third">
+        <h3>Chile Capital of the World:<br /> Hatch, NM</h3>
+        <p>When we wanted to make a green chile Smoked Shorty® Sausage, we knew we had to use chiles from the Hatch Valley. So, we hopped on a plane, jumped in a car, and headed to the green chile mecca known as Hatch.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% assign this_product = all_products['chorizo-lime'] %}
+<div class="ingredients-product-container ingredients-product-container__product-left">
+  <div class="wrapper {{ this_product.handle }}">
+
+    <div class="ingredients-product-container__copy-box">
+      <div>
+        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Fresh Cilantro<br /> & Real Lime Juice</h3>
+        <p class="lead">Many folks just mix dried spices into the Chorizo sausages. But, if you haven’t learned yet, we don’t do it like everyone else. Each small batch of our Chorizo & Lime Smoked Shorty® Sausages has real, squeezed lime juice and roughly 80 pounds of freshly diced cilantro per batch. That's right: We said 80 pounds.</p>
+        {{ 'ingredients-product-chorizo-lime.png' | asset_url | img_tag }}
+      </div>
+    </div>
+    <div class="product-grid-item-container">
+      <a href="{{ this_product.url | within: collection }}" class="grid__image">
+        <img src="{{ this_product.featured_image.src | img_url: 'large' }}" alt="{{ this_product.featured_image.alt | escape }}">
+      </a>
+      <ul>
+        <li><a href="{{ this_product.url | within: collection }}">Learn More</a></li>
+{% comment %}
+        <li>
+          <form action="/cart/add" method="post" class="clearfix" id="product-form-{{ this_product.id }}">
+            <input type="hidden" name="id" value="{{ this_product.variants.first.id }}" />
+            {% if this_product.available %}
+            <button type="submit" name="add" id="add-to-cart">Add To Cart</button>
+            {% endif %}
+          </form>
+        </li>
+{% endcomment %}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+
+{% assign this_product = all_products['honey-bourbon'] %}
+<div class="ingredients-product-container ingredients-product-container__product-right">
+  <div class="wrapper {{ this_product.handle }}">
+
+    <div class="ingredients-product-container__copy-box">
+      <div>
+        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Honey & Barrel Aged Bourbon</h3>
+        <p class="lead">We start off with real honey from U.S. based beekeepers. We take this liquid gold and add a touch of barrel-aged bourbon to make the marinade for our 100% grass-fed beef Honey Bourbon Steak Strips. We then slow smoke these tender strips with real, oak bourbon cask planks and hickory wood. Getting hungry?</p>
+        {{ 'ingredients-product-honey-bourbon.png' | asset_url | img_tag }}
+      </div>
+    </div>
+    <div class="product-grid-item-container">
+      <a href="{{ this_product.url | within: collection }}" class="grid__image">
+        <img src="{{ this_product.featured_image.src | img_url: 'large' }}" alt="{{ this_product.featured_image.alt | escape }}">
+      </a>
+      <ul>
+        <li><a href="{{ this_product.url | within: collection }}">Learn More</a></li>
+{% comment %}
+        <li>
+          <form action="/cart/add" method="post" class="clearfix" id="product-form-{{ this_product.id }}">
+            <input type="hidden" name="id" value="{{ this_product.variants.first.id }}" />
+            {% if this_product.available %}
+            <button type="submit" name="add" id="add-to-cart">Add To Cart</button>
+            {% endif %}
+          </form>
+        </li>
+{% endcomment %}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+
+{% assign this_product = all_products['chipotle-bbq'] %}
+<div class="ingredients-product-container ingredients-product-container__product-left">
+  <div class="wrapper {{ this_product.handle }}">
+
+    <div class="ingredients-product-container__copy-box">
+      <div>
+        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Crushed Serrano Peppers</h3>
+        <p class="lead">Our chipotle peppers are freshly crushed to preserve their signature smoky flavor. Then we mix them with puréed tomatoes, honey and sea salt to create a tasty barbecue marinade for these one-of-a-kind 100% grass-fed beef Chipotle BBQ Brisket Strips.</p>
+        {{ 'ingredients-product-chipotle-bbq.png' | asset_url | img_tag }}
+      </div>
+    </div>
+    <div class="product-grid-item-container">
+      <a href="{{ this_product.url | within: collection }}" class="grid__image">
+        <img src="{{ this_product.featured_image.src | img_url: 'large' }}" alt="{{ this_product.featured_image.alt | escape }}">
+      </a>
+      <ul>
+        <li><a href="{{ this_product.url | within: collection }}">Learn More</a></li>
+{% comment %}
+        <li>
+          <form action="/cart/add" method="post" class="clearfix" id="product-form-{{ this_product.id }}">
+            <input type="hidden" name="id" value="{{ this_product.variants.first.id }}" />
+            {% if this_product.available %}
+            <button type="submit" name="add" id="add-to-cart">Add To Cart</button>
+            {% endif %}
+          </form>
+        </li>
+{% endcomment %}
+      </ul>
+    </div>
+
+  </div>
+</div>
+

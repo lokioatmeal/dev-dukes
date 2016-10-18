@@ -1,0 +1,57 @@
+<!-- /snippets/pre-footer.liquid -->
+
+<div id="pre-footer">
+  <div class="wrapper text-center">
+    <div class="duke-quote">
+      {% unless
+        template == 'index'
+        or template == 'page.flavor-not-sugar'
+        or template == 'page.ingredients'
+      %}
+        {% if page.handle == "ingredients" %}
+        {{ 'quote-ingredients.png' | asset_url | img_tag }}
+        {% elsif page.handle == "process" %}
+        {{ 'quote-control-quality.png' | asset_url | img_tag }}
+        {% elsif page.handle == "our-story" %}
+        {{ 'quote-craft.png' | asset_url | img_tag }}
+
+        {% else %}
+        {{ 'quote-control-quality.png' | asset_url | img_tag }}
+        {% endif %}
+      {% endunless %}
+
+
+
+
+
+
+
+
+
+
+{% comment %}
+Pick a default and then draw the rest based on page handle
+      
+      {{ 'quote-craft.png' | asset_url | img_tag }}
+      {{ 'quote-fresh-ingredients.png' | asset_url | img_tag }}
+      
+      {{ 'quote-jazz.png' | asset_url | img_tag }}
+      {{ 'quote-liquid-smoke.png' | asset_url | img_tag }}
+      {{ 'quote-shortcuts.png' | asset_url | img_tag }}
+      {{ 'quote-smoked-meats.png' | asset_url | img_tag }}
+      {{ 'quote-sugarcoat.png' | asset_url | img_tag }}
+{% endcomment %}
+    </div>
+  </div>
+  {% comment %}
+  Show random color / image based from js.
+  {% endcomment %}
+  <div id="pre-footer-bottom">
+    {{ 'pre-footer-chipotle.png' | asset_url | img_tag }}
+    {{ 'pre-footer-honey.png' | asset_url | img_tag }}
+    {{ 'pre-footer-lime.png' | asset_url | img_tag }}
+    {{ 'pre-footer-peach.png' | asset_url | img_tag }}
+    {{ 'pre-footer-serano.png' | asset_url | img_tag }}
+    {{ 'pre-footer-tomato.png' | asset_url | img_tag }}
+  </div>
+</div>

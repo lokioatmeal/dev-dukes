@@ -1,4 +1,9 @@
 /*============================================================================
+  Need this @import for Veneer font. Src loaded below in fonts.
+==============================================================================*/
+@import url("//hello.myfonts.net/count/323e25");
+
+/*============================================================================
   Shopify Timber
   Copyright 2015 Shopify Inc.
   Author Carson Shold @cshold
@@ -57,6 +62,8 @@ $viewportIncrement: 1px;
 $small: 480px;
 $medium: 768px;
 $large: 769px;
+$extra-large: 1024px; // Ugh... this is ugly.
+$extra-extra-large: 1200px; // Kind of arbitrary.
 
 $postSmall: $small + $viewportIncrement;
 $preMedium: $medium - $viewportIncrement;
@@ -78,8 +85,10 @@ $breakpoint-has-pull:  ('medium', 'medium-down', 'large');
 ==============================================================================*/
 
 // Timber Colors
-$colorPrimary: {{ settings.color_primary }};
-$colorSecondary: {{ settings.color_secondary }};
+// $colorPrimary: #747474;
+// $colorSecondary: #bbbbbb;
+$colorPrimary: #82a53f;
+$colorSecondary: #bbbbbb;
 
 // Button colors
 $colorBtnPrimary: $colorPrimary;
@@ -97,21 +106,23 @@ $colorLink: $colorPrimary;
 $colorLinkHover: lighten($colorPrimary, 15%);
 
 // Text colors
-$colorTextBody: {{ settings.color_body_text }};
+$colorTextBody: #1a1a1a;
 
 // Backgrounds
-$colorBody: {{ settings.color_body_bg }};
+$colorBody: #e4e3de;
 
 // Border colors
-$colorBorder: {{ settings.color_borders }};
+$colorBorder: #cccccc;
 
 // Nav and dropdown link background
-$colorNav: #f2f2f2;
+// $colorNav: #f2f2f2;
+$colorNav: rgba(255,255,255,0);
 $colorNavText: #333;
 
 // Site Footer
-$colorFooterBg: {{ settings.color_footer_bg }};
-$colorFooterText: {{ settings.color_footer_text }};
+// $colorFooterBg: #000;
+$colorFooterBg: #252525;
+$colorFooterText: $colorSecondary;
 
 // Logo max width
 $logoMaxWidth: {{ settings.logo_max_width | default: '450' | remove: 'px' }}px;
@@ -127,13 +138,15 @@ $successGreenBg: #ecfef0;
 // Drawers
 $drawerNavWidth: 300px;
 $drawerCartWidth: 300px;
-$colorDrawers: #f6f6f6;
+// $colorDrawers: #f6f6f6;
+$colorDrawers: $colorBody;
 $colorDrawerBorder: darken($colorDrawers, 5%);
 $colorDrawerText: #333;
 $drawerTransition: all 0.4s cubic-bezier(0.46, 0.01, 0.32, 1);
 
 // Sizing variables
-$siteWidth: 1180px;
+// $siteWidth: 1180px;
+$siteWidth: 1280px;
 $gutter: 30px;
 $gridGutter: 30px; // can be a %, but nested grids will have smaller margins because of it
 $radius: 3px;
@@ -144,11 +157,27 @@ $zindexDrawer: 10;
 
 /*================ Typography ================*/
 
-$headerFontStack: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$headerFontWeight: 700;
+$headerFontStack: 'Arvo', 'Droid Serif', 'Georgia', serif;
+$headerFontWeight: 400;
 
-$bodyFontStack: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$baseFontSize: 14px; // Henceforth known as 1em
+/* Note the @import at the top of this file for this font VeneerClean-Reg */
+@font-face {
+  font-family: 'VeneerClean-Reg';
+  src: url('{{ "323E25_0_0.eot" | asset_url }}');
+  src: url('{{ "323E25_0_0.eot" | asset_url }}?#iefix') format('embedded-opentype'),
+       url('{{ "323E25_0_0.woff2" | asset_url }}') format('woff2'),
+       url('{{ "323E25_0_0.woff" | asset_url }}') format('woff'),
+       url('{{ "323E25_0_0.ttf" | asset_url }}') format('truetype'),
+       url('{{ "323E25_0_0.svg" | asset_url }}#wf') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+$altHeaderFontStack: 'VeneerClean-Reg', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+$bodyFontStack: 'Droid Serif', 'Georgia', serif;
+$baseFontSize: 16px; // Henceforth known as 1em
+
+$altFontStack: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 @font-face {
   font-family: 'icons';
@@ -175,11 +204,23 @@ $socialIconFontStack: 'icons';
 }
 
 @mixin clearfix() {
-  &:after {
+  &::after {
     content: '';
     display: table;
     clear: both; }
   *zoom: 1;
+}
+
+@mixin zigzag() {
+  background-image: url('{{ "zig-zag-background.png" | asset_url }}');
+  background-position: center center;
+  background-repeat: repeat;
+}
+
+@mixin zigzaglighter() {
+  background-image: url('{{ "zig-zag-background-lighter.png" | asset_url }}');
+  background-position: center center;
+  background-repeat: repeat;
 }
 
 /*============================================================================
@@ -711,6 +752,10 @@ html {
 
 body {
   background-color: $colorBody;
+  background-image: url('{{ "body-background-image.jpg" | asset_url }}');
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  // box-shadow: inset 5em -5em 10em 0 rgba(0,0,0,0.2), inset -5em -5em 10em 0 rgba(0,0,0,0.2);
 }
 
 [tabindex='-1']:focus {
@@ -730,8 +775,11 @@ body {
 
 .main-content {
   display: block;
-  margin-top: $gutter;
+  margin-top: 4px;
   padding-bottom: $gutter * 2;
+  @include at-query ($max, $medium) {
+    border-top: 1px solid transparentize($colorTextBody, 0.8);
+  }
 }
 
 /*============================================================================
@@ -788,9 +836,16 @@ select {
   line-height: 1.6;
   font-family: $bodyFontStack;
   color: $colorTextBody;
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
+}
+
+input,
+textarea,
+button,
+select {
+  font-family: $altFontStack;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -918,7 +973,7 @@ pre {
 /*================ Horizontal Rules ================*/
 hr {
   clear: both;
-  border-top: solid $colorBorder;
+  border-top: solid $colorTextBody;
   border-width: 1px 0 0;
   margin: $gutter 0;
   height: 0;
@@ -1081,12 +1136,16 @@ html input[disabled] {
 
 .btn,
 .rte .btn {
+  font-family: $altFontStack;
+  text-transform: uppercase;
+  font-size: 0.9rem;
   display: inline-block;
-  padding: 8px 10px;
+  padding: 8px 1.5rem;
   width: auto;
   margin: 0;
   line-height: 1.42;
-  font-weight: bold;
+  // font-weight: bold;
+  font-weight: 400;
   text-decoration: none;
   text-align: center;
   vertical-align: middle;
@@ -1096,7 +1155,8 @@ html input[disabled] {
   @include user-select(none);
   -webkit-appearance: none;
   -moz-appearance: none;
-  border-radius: $radius;
+  // border-radius: $radius;
+  border-radius: 0;
 
   /*================ Set primary button colors - can override later ================*/
   background-color: $colorBtnPrimary;
@@ -1135,6 +1195,19 @@ html input[disabled] {
   &:focus {
    background-color: $colorBtnSecondaryActive;
    color: $colorBtnSecondaryText;
+  }
+}
+
+.btn--alt,
+.rte .btn--alt {
+  @extend .btn;
+  background-color: $colorTextBody;
+  color: $colorBody;
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $colorTextBody;
+    color: $colorBody;
   }
 }
 
@@ -1429,7 +1502,7 @@ select {
   border: 1px solid $colorBorder;
   max-width: 100%;
   padding: 8px 10px;
-  border-radius: $radius;
+  // border-radius: $radius;
 
   &:focus {
     border: 1px solid darken($colorBorder, 10%);
@@ -1580,12 +1653,12 @@ label.error {
   .input-group-btn:first-child > .btn,
   input[type="hidden"]:first-child + .input-group-field,
   input[type="hidden"]:first-child + .input-group-btn > .btn {
-    border-radius: $radius 0 0 $radius;
+    // border-radius: $radius 0 0 $radius;
   }
 
   .input-group-field:last-child,
   .input-group-btn:last-child > .btn {
-   border-radius: 0 $radius $radius 0;
+   // border-radius: 0 $radius $radius 0;
   }
 
   input {
@@ -1707,7 +1780,7 @@ label.error {
 
   li {
     margin: 0 ($gutter / 4) ($gutter / 4);
-    color: {{ settings.color_footer_social_link }};
+    color: #bbbbbb;
     cursor: default;
   }
 
@@ -1735,10 +1808,9 @@ label.error {
   }
 
   a {
-    color: {{ settings.color_footer_social_link }};
-
+    color: #ffffff;
     &:hover {
-      color: darken({{ settings.color_footer_social_link }}, 10%);
+      color: darken(#ffffff, 10%);
     }
   }
 }
@@ -1770,27 +1842,49 @@ label.error {
 ==============================================================================*/
 .site-header {
   padding: ($gutter / 2) 0;
-
-  .grid--table {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-
-    > .grid__item {
-      float: none;
-      display: table-cell;
-      vertical-align: middle;
+  font-family: $altFontStack;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  .inline-list {
+    li {
+      margin-left: 1rem;
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
+  a {
+    color: $colorNavText;
+  }
+
+  .icon-cart:before {
+    // position: relative;
+    // bottom: -0.5rem;
+    // font-size: 1.5rem;
+  }
+
+  // .grid--table {
+  //   display: table;
+  //   table-layout: fixed;
+  //   width: 100%;
+
+  //   > .grid__item {
+  //     float: none;
+  //     display: table-cell;
+  //     vertical-align: middle;
+  //   }
+  // }
 }
 
 .site-header__logo {
   text-align: center;
   margin: 0 auto;
   max-width: 100%;
-
+  display: inline-block;
   @include at-query ($min, $large) {
     text-align: left;
+    margin-top: -2rem;
   }
 
   a,
@@ -1841,13 +1935,24 @@ label.error {
 }
 
 .site-nav {
-  font-size: em(16px);
   cursor: default;
-  margin: 0 0 0 (-$gutter / 2);
-
+  margin: 0;
+  border-bottom: 4px double $colorNavText;
+  font-style: italic;
+  font-size: 1rem;
   li {
     margin: 0;
     display: block;
+    a {
+      margin: 0;
+      padding: 0.2rem 0;
+    }
+    &:first-child {
+      a::before {
+        padding: 0 0.5rem;
+        content: "\2022";
+      }
+    }
   }
 
   > li {
@@ -1859,18 +1964,32 @@ label.error {
 /*================ Home to hamburger and cart that toggle drawers ================*/
 .site-nav--mobile {
   @extend .site-nav;
+  border: none;
 
   .text-right & {
-    margin: 0 (-$gutter / 2) 0 0;
+    // margin: 0 (-$gutter / 2) 0 0;
   }
+
+  .site-nav__link {
+    &::after {
+      content: none;
+    }
+  }
+
 }
 
 .site-nav__link {
   display: block;
   text-decoration: none;
-  padding: $gutter / 2;
+  // padding: $gutter / 2;
+  padding: $gutter / 4 0;
   white-space: nowrap;
   color: $colorNavText;
+  letter-spacing: 1px;
+  &::after {
+    padding: 0 0.5rem;
+    content: "\2022";
+  }
 
   &:hover,
   &:active,
@@ -1879,14 +1998,15 @@ label.error {
   }
 
   .icon-arrow-down {
-    position: relative;
-    top: -2px;
-    font-size: 10px;
-    padding-left: $gutter / 4;
+    display: none;
+    // position: relative;
+    // top: -2px;
+    // font-size: 10px;
+    // padding-left: $gutter / 4;
   }
 
   .site-nav--active > & {
-    font-weight: bold;
+    // font-weight: bold;
   }
 
   .site-nav--mobile & {
@@ -1900,7 +2020,12 @@ label.error {
   position: absolute;
   left: 0;
   margin: 0;
+  padding-bottom: 0.5rem;
   z-index: $zindexNavDropdowns;
+  background-color: transparentize($colorBody, 0.05);
+  border: 1px solid transparentize($colorTextBody, 0.7);
+  border-top: none;
+  box-shadow: 0 20px 20px transparentize($colorTextBody, 0.8);
 
   .supports-no-touch .site-nav--has-dropdown:hover &,
   .site-nav--has-dropdown.nav-hover &,
@@ -1908,13 +2033,18 @@ label.error {
     display: block;
   }
 
-  a {
-    background-color: $colorNav;
-
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: darken($colorNav, 10%);
+  li {
+    text-align: left;
+    padding-right: 1rem;
+    &:first-child {
+      padding-top: 0.5rem;
+    }
+    a {
+      background-color: $colorNav;
+      &::after {
+        padding: 0;
+        content: "";
+      }
     }
   }
 }
@@ -1959,7 +2089,8 @@ label.error {
   // Background color on top level items so there is no
   // element overlap on subnav's CSS toggle animation
   .mobile-nav > & {
-    background-color: $colorDrawers;
+    // background-color: $colorDrawers;
+    background-color: transparent;
   }
 
   &:after {
@@ -1995,12 +2126,13 @@ label.error {
 
   &:active,
   &:focus {
-    background-color: darken($colorDrawers, 5%);
+    // background-color: darken($colorDrawers, 5%);
+    background-color: transparent;
   }
 }
 
 .mobile-nav__item--active {
-  font-weight: bold;
+  // font-weight: bold;
 }
 
 .mobile-nav__has-sublist {
@@ -2081,6 +2213,8 @@ label.error {
   z-index: $zindexDrawer;
   color: $colorDrawerText;
   background-color: $colorDrawers;
+  background-image: url('{{ "body-background-image.jpg" | asset_url }}');
+  background-position: center center;
   transition: $drawerTransition;
 
   a {
@@ -2101,7 +2235,8 @@ label.error {
 .drawer--left {
   width: $drawerNavWidth;
   left: -$drawerNavWidth;
-  border-right: 1px solid $colorDrawerBorder;
+  border-right: 1px solid transparentize($colorTextBody, 0.6);
+  box-shadow: 10px 0 10px 5px transparentize($colorTextBody, 0.8), 2px 0 4px 2px transparentize($colorTextBody, 0.8);
 
   .js-drawer-open-left & {
     display: block;
@@ -2116,7 +2251,8 @@ label.error {
 .drawer--right {
   width: $drawerCartWidth;
   right: -$drawerCartWidth;
-  border-left: 1px solid $colorDrawerBorder;
+  border-left: 1px solid transparentize($colorTextBody, 0.6);
+  box-shadow: -10px 0 10px 5px transparentize($colorTextBody, 0.8), -2px 0 4px 2px transparentize($colorTextBody, 0.8);
 
   .js-drawer-open-right & {
     display: block;
@@ -2183,19 +2319,6 @@ label.error {
 }
 
 /*============================================================================
-  #Site Footer
-==============================================================================*/
-.site-footer {
-  background-color: $colorFooterBg;
-  padding: $gutter 0;
-  color: $colorFooterText;
-
-  @include at-query ($min, $large) {
-    padding: ($gutter * 2) 0;
-  }
-}
-
-/*============================================================================
   #Product and Collection Grids
 ==============================================================================*/
 .grid__image {
@@ -2205,6 +2328,148 @@ label.error {
   img {
     display: block;
     margin: 0 auto;
+  }
+}
+
+.collection-container {
+  padding: 4rem 0;
+  text-align: center;
+  @include at-query($min, $large) {
+    padding: 40px 60px 20px 60px;
+  }
+  &.collection-container__3-packs {
+    padding-top: 0;
+    border-top: 1px solid $colorTextBody;
+    .silly-mega-button {
+      top: -1.3rem;
+      cursor: auto;
+      p {
+        i {
+          font-style: normal;
+          cursor: auto;
+          &::after {
+            content: "";
+          }
+        }
+      }
+    }
+  }
+  p.collection-container__description {
+    margin: 20px 0;
+    font-family: $headerFontStack;
+    font-style: italic;
+    font-size: 1.2rem;
+    @include at-query($min, $large) {
+      padding: 0 60px 30px 60px;
+    }
+  }
+}
+
+.template-index {
+  .collection-container {
+    position: relative;
+    margin: 2rem auto;
+    padding: 10px;
+    border: 8px solid $colorTextBody;
+    text-align: center;
+    max-width: 640px;
+    @include at-query($min, $large) {
+      margin: 3rem auto 0 auto;
+      padding-top: 3rem;
+    }
+    .collection-container-duct-tape {
+      a {
+        display: block;
+        &:last-child {
+          position: relative;
+          width: 100vw;
+          left: 50%;
+          @include prefixer(transform, translateX(-50%), webkit moz ms spec);
+          img {
+            display: block;
+            margin: 2rem auto 0 auto;
+          }
+        }
+      }
+    }
+    .silly-mega-button {
+      bottom: -2.4rem;
+      i {
+        font-style: normal;
+      }
+      // a,
+      // i {
+      //   font-size: 1rem;
+      // }
+      // @include at-query($min, $large) {
+      //   bottom: -2.5rem;
+      //   a,
+      //   i {
+      //     font-size: 1.5rem;
+      //   }
+      // }
+    }
+  }
+}
+
+.product-grid-item-container {
+  margin-bottom: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  a {
+    color: $colorTextBody;
+  }
+  h3 {
+    font-family: $altHeaderFontStack;
+    font-weight: 700;
+    font-size: 1.7rem;
+    margin-bottom: 0;
+    letter-spacing: 1px;
+  }
+  h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  p {
+    margin-bottom: 0;
+    font-family: $altFontStack;
+    font-size: 1.5rem;
+    font-style: italic;
+    &::before,
+    &::after {
+      margin: 0.25rem auto;
+      display: block;
+      content: "";
+      width: 50%;
+      border-top: 1px solid $colorTextBody;
+    }
+  }
+  ul {
+    margin: 0;
+    list-style: none;
+    li {
+      display: inline;
+      form {
+        display: inline-block;
+      }
+      a,
+      button {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-family: $headerFontStack;
+        font-weight: 700;
+        color: $errorRed;
+      }
+      &:first-child {
+        a {
+          color: $colorTextBody;
+        }
+        &::after {
+          // content: "\00a0\00a0/\00a0";
+          content: "";
+        }
+      }
+    }
   }
 }
 
@@ -2237,6 +2502,184 @@ label.error {
 /*============================================================================
   #Product Page
 ==============================================================================*/
+.product-single {
+  position: relative;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding: 10px;
+  border: 8px solid $colorTextBody;
+  text-align: center;
+  .product-single__split-container {
+    float: left;
+    position: relative;
+    width: 100%;
+    .product-single__photos-container {
+      margin-top: -3rem;
+      @include at-query($min, $large) {
+        float: left;
+        position: absolute;
+        margin-top: 0;
+        width: 50%;
+        top: -3rem;
+        // bottom: 0;
+        right: 48%;
+        .product-single__photos {
+        }
+      }
+    }
+    .product-single__info-container {
+      margin-bottom: 3rem;
+      @include at-query($min, $large) {
+        float: right;
+        width: 50%;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+      h1 {
+        margin: 1rem 0 0 0;
+        font-family: $altHeaderFontStack;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+      .product-price-wrapper {
+        margin: 1rem auto;
+        font-style: italic;
+        .h2 {
+          margin: 0.5rem auto;
+          font-size: 1.8rem;
+          font-weight: 400;
+        }
+        &::before,
+        &::after {
+          display: block;
+          content: "";
+          margin: 0 auto;
+          width: 50%;
+          border-top: 1px solid $colorTextBody;
+        }
+      }
+      .form-vertical {
+        select {
+          display: inline-block;
+        }
+      }
+      .js-qty {
+        // Quantity selector in form
+        left: 50%;
+        @include prefixer(transform, translateX(-50%), webkit moz ms spec);
+      }
+      h4 { // This h4 is temporary till we decide to actually sell products
+        display: inline-block;
+        margin: 0.5rem auto;
+        padding: 0.25rem 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        border: 1px solid transparentize($colorTextBody, 0.8);
+      }
+      .product-description {
+        font-family: $altFontStack;
+        @include at-query($min, $large) {
+          min-height: 8rem;
+        }
+      }
+      .social-icons {
+        li {
+          margin: 0 3px;
+          a {
+            color: transparentize($colorTextBody, 0.5);
+            &:hover {
+              color: transparentize($colorTextBody, 0.3);
+            }
+          }
+        }
+      }
+    }
+  }
+  .product-single__supporting-container {
+    clear: both;
+    @include clearfix();
+    margin-bottom: 2rem;
+    @include at-query($min, $large) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      div {
+        float: left;
+        width: 33%;
+        border-left: 2px solid transparentize($colorTextBody, 0.8);
+        &:first-child {
+          border: none;
+        }
+      }
+    }
+  }
+  .product-single__footnotes {
+     p {
+      margin: 0 2rem;
+      font-size: 0.8rem;
+      font-style: italic;
+      line-height: 1;
+      color: transparentize($colorTextBody, 0.5);
+      &:first-child {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+  .silly-mega-button {
+    bottom: -2.6rem;
+    @include at-query($min, $large) {
+      bottom: -2.2rem;
+    }
+    p {
+      a,
+      i {
+        &::after {
+          content: "";
+        }
+      }
+    }
+    em {
+      position: absolute;
+      bottom: -4rem;
+      font-size: 3rem;
+      transition: 300ms ease;
+      left: 50%;
+      @include prefixer(transform, translateX(-50%), webkit moz ms spec);
+      &.point-up {
+        @include prefixer(transform, rotate(180deg) translateX(50%), webkit moz ms spec);
+      }
+    }
+  }
+  .product-single__nutritionals {
+    // Uses jQuery to animate display.
+    display: none;
+    // opacity: 0;
+    margin-top: 7rem;
+    @include clearfix();
+    p {
+      font-family: $altFontStack;
+      color: transparentize($colorTextBody, 0.5);
+    }
+    @include at-query($min, $large) {
+      padding: 0 30px;
+      div {
+        float: left;
+        width: 66%;
+      }
+      p {
+        text-align: left;
+        float: right;
+        width: 33%;
+      }
+    }
+  }
+}
+
 .product-single__variants {
   display: none;
 
@@ -2550,3 +2993,1322 @@ label.error {
 }
 
 {% endif %} // settings.ajax_cart_method
+
+
+
+
+/*================ Custom Styles. Ugh... ================*/
+
+#NavDrawer {
+  // text-align: center;
+  .drawer__close {
+    button {
+      float: right;
+    }
+  }
+}
+
+.silly-mega-button {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  @include clearfix();
+  p {
+    position: relative;
+    margin: 0;
+    padding: 4px 6px;
+    background-color: $colorBody;
+    background-image: url('{{ "body-background-image.jpg" | asset_url }}');
+    background-position: center center;
+    border: 1px solid $colorTextBody;
+    border-radius: 0.7rem;
+    &::before,
+    &::after {
+      position: absolute;
+      content: "\2666";
+      padding: 0 0 0 20px;
+      left: -27px;
+      top: 50%;
+      background-color: $colorBody;
+      background-image: url('{{ "body-background-image.jpg" | asset_url }}');
+      background-position: center center;
+      border-radius: $radius;
+      @include prefixer(transform, translateY(-50%) scaleY(0.8), webkit moz ms spec);
+    }
+    &::after {
+      left: auto;
+      padding: 0 20px 0 0;
+      right: -27px;
+    }
+    a,
+    i {
+      text-transform: uppercase;
+      font-family: $headerFontStack;
+      font-weight: 700;
+      line-height: 1;
+      // font-size: 1.5rem;
+      font-size: 0.9rem;
+      br {
+        display: none;
+      }
+      &::after {
+        content: "\2002>";
+      }
+      &.btn {
+        border-radius: 0.7rem;
+        padding: 0.5rem 1.3rem 0.5rem 1.5rem;
+      }
+    }
+    i {
+      &.btn {
+        padding-left: 1.3rem;
+      }
+    }
+  }
+  &.silly-mega-button--bright {
+    p {
+      border-color: #c00;
+      &::before,
+      &::after {
+        color: #c00;
+      }
+      a,
+      i {
+        color: #fff;
+        background-color: #c00;
+      }
+    }
+  }
+  &.silly-mega-button--white {
+    p {
+      background-color: #fff;
+      background-image: none;
+      &::before,
+      &::after {
+        background-color: #fff;
+        background-image: none;
+        padding: 0;
+        left: -7px;
+      }
+      &::after {
+        left: auto;
+        right: -7px;
+      }
+    }
+  }
+}
+
+#hero-carousel {
+  padding: 0;
+  margin: 2rem 0 0 0;
+  text-align: center;
+  @include zigzaglighter();
+  background-color: #faf9f7;
+  box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
+  &::after {
+    display: block;
+    content: "";
+    height: 30px;
+    background-color: #cb4432;
+    @include zigzaglighter();
+  }
+  div {
+    padding: 1rem 0;
+    img {
+      @include at-query($min, $large) {
+        max-height: 60vmin;
+      }
+    }
+  }
+}
+
+.main-content {
+  #hero-fixins {
+    margin: 4rem 0;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    background: #d3d1bc url('{{ "hero-fixins-bkg.jpg" | asset_url }}') center center no-repeat;
+    background-size: cover;
+    box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
+    @include at-query($min, $large) {
+      margin: 6rem 0;
+    }
+    .wrapper {
+      @include at-query($min, $large) {
+        max-width: 900px;
+      }
+      h2 {
+        margin: 0;
+        text-align: center;
+        font-family: $altHeaderFontStack;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        line-height: 1.2;
+        color: $colorTextBody;
+        div {
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+        }
+      }
+      @include at-query($min, $extra-extra-large) {
+        h2 {
+          float: left;
+          margin-top: 1rem;
+          text-align: left;
+          max-width: 50%;
+          font-size: 4rem;
+          div {
+            margin: 0;
+            color: #fff;
+          }
+        }
+      }
+      .hero-fixins__copy-box {
+        margin: 0 auto;
+        padding: 1rem;
+        background-color: #fff;
+        min-height: 630px;
+        max-width: 400px;
+        box-shadow: 0 1px 1px 1px transparentize($colorTextBody, 0.8);
+        @include at-query($min, $extra-extra-large) {
+          float: right;
+          margin-top: -4em;
+          margin-bottom: -6em;
+        }
+        > div {
+          text-align: center;
+          padding: 3rem 1rem 1rem 1rem;
+          border: 1px solid transparentize($colorTextBody, 0.7);
+          h3 {
+            text-transform: uppercase;
+            font-weight: 700;
+            &::after {
+              display: block;
+              content: "";
+              width: 90%;
+              margin: 0 auto;
+              padding: 2rem 0;
+              opacity: 0.2;
+              background: transparent url('{{ "rule-squiggle-background.png" | asset_url }}') center center repeat-x;
+            }
+          }
+          p.lead {
+            margin: 1rem 1rem 0 1rem;
+            font-family: $headerFontStack;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.5;
+          }
+        }
+        .silly-mega-button {
+          em {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+#hero-our-process {
+  margin: 2rem 0 4rem 0;
+  text-align: center;
+  .wrapper {
+    max-width: 900px;
+    h2 {
+      text-transform: uppercase;
+      font-size: 1.5rem;
+      line-height: 1;
+      span {
+        display: block;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        font-weight: 700;
+        word-spacing: 0.7rem;
+      }
+    }
+    p.lead {
+      margin-top: 1rem;
+      font-family: $headerFontStack;
+      font-style: italic;
+    }
+    @include at-query($min, $large) {
+      h2 {
+        margin-bottom: 4rem;
+        font-size: 2rem;
+        span {
+          margin-bottom: 2rem;
+          font-size: 4rem;
+          word-spacing: 1rem;
+        }
+      }
+      p.lead {
+        margin: 3rem 100px;
+        font-size: 1.3rem;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+#hero-smoked-in-detroit {
+  margin: 4rem 0 0 0;
+  padding: 4rem 0;
+  text-align: center;
+  background-color: #900;
+  @include zigzag();
+  ul {
+    margin: 3rem 0;
+    padding: 0;
+    list-style-type: none;
+    @include clearfix();
+    li {
+      margin: 1rem 0;
+      padding: 0;
+      img {
+        margin: 0 auto;
+        display: block;
+      }
+    }
+  }
+  .silly-mega-button {
+    p {
+      background-color: rgba(153,0,0,0.8);
+      background-image: none;
+      &::before,
+      &::after {
+        background-color: rgba(153,0,0,0.8);
+        background-image: none;
+        padding: 0;
+        left: -7px;
+      }
+      &::after {
+        left: auto;
+        right: -7px;
+      }
+    }
+  }
+  @include at-query($min, $large) {
+    ul {
+      li {
+        float: left;
+        padding: 0 1rem;
+        width: 33%;
+      }
+    }
+  }
+}
+
+#hero-meat-not-candy {
+  margin: 2rem 0;
+  text-align: center;
+  .wrapper {
+    div {
+      &:first-child {
+        position: relative;
+        img {
+          display: block;
+          margin: 0 auto;
+          &:nth-of-type(1) {
+            position: absolute;
+            max-width: 80%;
+            top: 10%;
+            left: 50%;
+            @include prefixer(transform, translate(-50%, -10%), webkit moz ms spec);
+            @include at-query($min, $large) {
+              max-width: 90%;
+            }
+          }
+          &:nth-of-type(2) {
+            margin-bottom: -2rem;
+            @include at-query($min, $large) {
+              margin-bottom: -3rem;
+              max-width: 60%;
+            }
+          }
+        }
+      }
+    }
+    p.lead {
+      margin-top: 1rem;
+      font-family: $headerFontStack;
+      font-style: italic;
+    }
+    @include at-query($min, $large) {
+      p.lead {
+        margin: 0 150px 3rem 150px;
+        font-size: 1.3rem;
+        line-height: 1.5;
+        span {
+          display: block;
+          margin-top: 2rem;
+        }
+      }
+    }
+  }
+}
+
+#flavor-not-sugar {
+  .flavor-not-sugar-hero-container {
+    text-align: center;
+    img {
+      margin: 3rem auto 2rem auto;
+      @include at-query($min, $large) {
+        max-height: 64vmin;
+        margin-bottom: 3rem;
+      }
+    }
+    p {
+      margin-bottom: 2rem;
+      font-family: $headerFontStack;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      font-style: italic;
+      @include at-query($min, $large) {
+        padding: 0 12%;
+        font-size: 3vh;
+      }
+    }
+  }
+  .flavor-not-sugar-sugarcoating-container {
+    text-align: center;
+    &::before,
+    &::after {
+      display: block;
+      content: "";
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 2px solid $colorTextBody;
+    }
+    @include at-query($min, $large) {
+      padding: 0 15%;
+      &::before,
+      &::after {
+        padding-top: 3rem;
+        margin-top: 3rem;
+      }
+    }
+    h2 {
+      margin: 0 auto 2rem auto;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    // This is some super-sloppy hacked garbage and I apologize.
+    // It is in need of some quality refactoring.
+    .flavor-not-sugar-sugarcoating-container__sugar-stack-container { @include clearfix();
+      .flavor-not-sugar-sugarcoating-container__sugar-stack-item {
+        position: relative; margin: 0 auto 2rem auto; padding-top: 2rem; max-width: 400px; border: 4px solid $colorTextBody; @include clearfix();
+        @include at-query($min, $extra-large) {
+          float: left; margin: 0 2%; padding-top: 0; padding-bottom: 3rem; width: 30%; min-height: 640px; border: 4px solid transparentize($colorTextBody, 1); transition: all 0.5s ease;
+          &:first-child { margin-left: 1%; }
+          &:last-child { margin-right: 1%; }
+        }
+        h3 {
+          position: relative; margin: 0; padding: 0; font-size: 1.7rem; font-weight: 700; line-height: 1.1; color: #c00; text-transform: uppercase;
+          span {
+            display: block; margin-top: 1rem; color: $colorTextBody;
+            i { font-style: normal; font-weight: 400; }
+          }
+          @include at-query($min, $extra-large) {
+            &::before, &::after { display: block; content: ""; height: 2rem; border: 4px solid $colorTextBody; border-bottom: none; transition: all 0.5s ease; }
+            &::after { border: 4px solid $colorTextBody; border-top: none; transition: all 0.5s ease; }
+          }
+        }
+        h4 {
+          transition: opacity 0.5s ease; opacity: 1; margin: 1rem; font-size: 1.2rem; line-height: 1.1; text-transform: uppercase;
+          @include at-query($min, $extra-large) { position: absolute; margin-top: 0; bottom: 0; min-height: 3rem; opacity: 0; }
+        }
+
+        img { position: relative; display: block; margin: 0 auto; }
+
+        &:nth-child(1) {
+          img {
+            left: 0.5rem; margin-top: -1rem; margin-bottom: -5rem;
+            @include at-query($min, $extra-large) {
+              margin-top: 4rem; margin-bottom: 0;
+              @include prefixer(transform, scale(1.5), webkit moz ms spec);
+            }
+          }
+        }
+        &:nth-child(2) {
+          img {
+            margin-top: -2rem; margin-bottom: -3rem;
+            @include at-query($min, $extra-large) { right: 0; margin-top: 4rem;
+              @include prefixer(transform, scale(1.5), webkit moz ms spec);
+            }
+          }
+        }
+        &:nth-child(3) {
+          img {
+            margin-top: -1rem; margin-bottom: -3rem;
+            @include at-query($min, $extra-large) { margin-top: 3.5rem;
+              @include prefixer(transform, scale(1.5), webkit moz ms spec);
+            }
+          }
+        }
+
+        &:hover {
+          @include at-query($min, $extra-large) {
+            padding-top: 2rem; border: 4px solid $colorTextBody;
+            h3 {
+              &::before, &::after { content: ""; height: 0; border: none; }
+            }
+            h4 { opacity: 1; }
+          }
+        }
+
+      } // .flavor-not-sugar-sugarcoating-container__sugar-stack-item
+    } // .flavor-not-sugar-sugarcoating-container__sugar-stack-container
+
+
+    > p {
+      margin-top: 2rem;
+      margin-bottom: 4rem;
+      font-family: $headerFontStack;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      font-style: italic;
+      @include at-query($min, $extra-large) {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+      }
+      @include at-query($min, $extra-extra-large) {
+        span {
+          display: block;
+          margin-top: 1.7rem;
+        }
+      }
+    }
+  }
+  .flavor-not-sugar-shortcuts-container {
+    text-align: center;
+    h2 {
+      margin: 0 auto 2rem auto;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+      span {
+        display: block;
+      }
+      @include at-query($min, $large) {
+        font-size: 2.7rem;
+        letter-spacing: 1px;
+      }
+    }
+    // @include at-query($min, $large) {
+    //   img {
+    //     margin: 1.5rem auto;
+    //   }
+    // }
+
+    .grid__item {
+      position: relative;
+      overflow: hidden;
+      @include clearfix();
+      a {
+        position: relative;
+        display: block;
+        margin: 1rem 0;
+        @include clearfix();
+        img {
+          display: block;
+          @include prefixer(backface-visibility, hidden, webkit moz ms spec);
+          transition: all 0.2s ease;
+          &:first-child {
+            opacity: 1;
+          }
+          &:last-child {
+            position: absolute;
+            padding: 2rem;
+            opacity: 0;
+            left: 50%;
+            top: -50%;
+            @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
+          }
+        }
+        &:hover {
+          img {
+            &:first-child {
+              opacity: 0;
+            }
+            &:last-child {
+              opacity: 1;
+              top: 50%;
+            }
+          }
+        }
+      }
+    }
+
+
+
+  }
+}
+
+#ingredients {
+  .ingredients-hero-container {
+    position: relative;
+    margin: 2rem auto 0 auto;
+    padding: 250px 0 2rem 0;
+    text-align: center;
+    background: #d3d1bc url('{{ "ingredients-hero-background.jpg" | asset_url }}') center center no-repeat;
+    background-size: cover;
+    box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
+    .wrapper {
+      p {
+        font-family: $headerFontStack;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        text-transform: uppercase;
+        color: #fff;
+        &::before {
+          display: block;
+          content: "";
+          margin: 2rem auto 0 auto;
+          padding-top: 2rem;
+          border-top: 2px solid #fff;
+          width: 20%;
+        }
+        @include at-query($min, $large) {
+          font-size: 2.5rem;
+        }
+      }
+      @include at-query($min, $large) {
+        position: absolute;
+        width: 90vw;
+        top: 50%;
+        left: 50%;
+        @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
+      }
+    }
+    @include at-query($min, $large) {
+      min-height: 700px;
+    }
+  }
+  .ingredients-lead-container {
+    p {
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      font-family: $headerFontStack;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      font-style: italic;
+      @include at-query($min, $large) {
+        margin-top: 3rem;
+        padding: 0 2rem;
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .hatch-nm-vdeo-container {
+    margin-bottom: 2rem;
+    .wrapper {
+      max-width: 1024px;
+    }
+    h3 {
+      font-family: $altHeaderFontStack;
+      font-size: 1.5rem;
+      line-height: 1.1;
+      @include at-query($min, $large) {
+        margin-top: 2rem;
+      }
+    }
+    p {
+      font-family: $altFontStack;
+    }
+  }
+  .ingredients-product-container {
+    &::after {
+      content: "";
+      display: block;
+      height: 8rem;
+    }
+    .ingredients-product-container__copy-box {
+      margin: 0 auto;
+      padding: 1rem;
+      background-color: #fff;
+      max-width: 420px;
+      box-shadow: 0 1px 1px 1px transparentize($colorTextBody, 0.8);
+      @include at-query($min, $large) {
+        margin-top: -5em;
+        min-height: 600px;
+      }
+      div {
+        text-align: center;
+        padding: 2rem 1rem 1rem 1rem;
+        border: 1px solid transparentize($colorTextBody, 0.7);
+        @include at-query($min, $large) {
+          min-height: 566px;
+        }
+        h3 {
+          font-family: $altHeaderFontStack;
+          font-size: 2.2rem;
+          line-height: 1;
+          text-transform: uppercase;
+          font-weight: 700;
+          &::after {
+            display: block;
+            content: "";
+            width: 90%;
+            margin: 0 auto;
+            padding: 1.5rem 0;
+            opacity: 0.2;
+            background: transparent url('{{ "rule-squiggle-background.png" | asset_url }}') center center repeat-x;
+          }
+        }
+        p.lead {
+          margin: 1rem 1rem 0 1rem;
+          font-family: $headerFontStack;
+          font-size: 1rem;
+          font-style: italic;
+          line-height: 1.5;
+          &::after {
+            display: block;
+            content: "";
+            width: 90%;
+            margin: 0 auto;
+            padding: 2rem 0;
+            opacity: 0.2;
+            background: transparent url('{{ "rule-squiggle-background.png" | asset_url }}') center center repeat-x;
+          }
+        }
+        img {
+          &:last-child {
+            margin-left: -4rem;
+            margin-right: -4rem;
+            margin-top: -1rem;
+            margin-bottom: -1rem;
+            @include prefixer(transform, scale(1.3), webkit moz ms spec);
+          }
+        }
+      }
+    }
+    .product-grid-item-container {
+      margin-top: 2rem;
+      margin-bottom: -5rem;
+      .grid__image {
+        max-width: 240px;
+        margin-bottom: 0;
+      }
+      li { // Remove this li chunk when we are ready to make products available
+        &:first-child {
+          &::after {
+            content: "";
+          }
+        }
+      }
+
+    }
+    @include at-query($min, $large) {
+      .product-grid-item-container {
+        position: absolute;
+        margin-top: 0;
+        margin-bottom: 1rem;
+      }
+    }
+    &.ingredients-product-container__product-left {
+      @include at-query($min, $large) {
+        .ingredients-product-container__copy-box {
+          float: right;
+          margin-right: 30px;
+        }
+        .product-grid-item-container {
+          bottom: -5rem;
+          left: 50px;
+        }
+      }
+    }
+    &.ingredients-product-container__product-right {
+      @include at-query($min, $large) {
+        .ingredients-product-container__copy-box {
+          float: left;
+          margin-left: 30px;
+        }
+        .product-grid-item-container {
+          bottom: -5rem;
+          right: 50px;
+        }
+      }
+    }
+    .wrapper {
+      position: relative;
+      padding-top: 2rem;
+      max-width: 1024px;
+      &.hickory-peach-bbq {
+        background: transparent url('{{ "ingredients-product-bkg-hickory-peach-bbq.jpg" | asset_url }}') center bottom no-repeat;
+        background-size: cover;
+      }
+      &.hatch-green-chile {
+        background: transparent url('{{ "ingredients-product-bkg-hatch-green-chile.jpg" | asset_url }}') center bottom no-repeat;
+        background-size: cover;
+      }
+      &.chorizo-lime {
+        background: transparent url('{{ "ingredients-product-bkg-chorizo-lime.jpg" | asset_url }}') 20% bottom no-repeat;
+        background-size: cover;
+        @include at-query($min, $large) {
+          background-position: center bottom;
+        }
+      }
+      &.honey-bourbon {
+        background: transparent url('{{ "ingredients-product-bkg-honey-bourbon.jpg" | asset_url }}') 80% bottom no-repeat;
+        background-size: cover;
+        @include at-query($min, $large) {
+          background-position: center bottom;
+        }
+        .ingredients-product-container__copy-box {
+          div {
+            img {
+              &:last-child {
+                margin-top: -3rem;
+                margin-bottom: -5rem;
+                @include prefixer(transform, scale(1), webkit moz ms spec);
+              }
+            }
+          }
+        }
+      }
+      &.chipotle-bbq {
+        background: transparent url('{{ "ingredients-product-bkg-chipotle-bbq.jpg" | asset_url }}') center bottom no-repeat;
+        background-size: cover;
+      }
+      @include at-query($min, $large) {
+        height: 480px;
+      }
+    }
+    @include at-query($min, $large) {
+      margin-top: 5rem;
+    }
+  }
+}
+
+#process {
+  .process-hero-container {
+  }
+  .wrapper-duct-tape {
+    padding: 0 1rem;
+    @include at-query($min, $large) {
+      padding: 0;
+    }
+    h1 {
+      margin: 3rem auto;
+      text-align: center;
+      font-family: $altHeaderFontStack;
+      text-transform: uppercase;
+      font-size: 3.5rem;
+      line-height: 1;
+    }
+    .process-promise-item-container {
+      text-align: center;
+      margin: 0 auto 6rem auto;
+      padding: 2rem 1rem 0 1rem;
+      max-width: 1024px;
+      border: 8px solid $colorTextBody;
+      h2 {
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        font-weight: 700;
+        text-transform: uppercase;
+        @include at-query($min, $large) {
+          font-size: 2.5rem;
+        }
+      }
+      h3 {
+        font-size: 1.2rem;
+        font-style: italic;
+        line-height: 1;
+        &::after {
+          margin: 1rem auto;
+          display: block;
+          content: "";
+          width: 30%;
+          border-bottom: 2px solid $colorTextBody;
+        }
+        @include at-query($min, $large) {
+          font-size: 2rem;
+          &::after {
+            width: 10%;
+          }
+        }
+      }
+      p {
+        font-family: $headerFontStack;
+        font-style: italic;
+        @include at-query($min, $large) {
+          padding: 0 100px;
+          font-size: 1.5rem;
+          line-height: 1.5;
+        }
+      }
+      img {
+        margin-bottom: -6rem;
+        // max-width: 80%;
+      }
+      &:nth-of-type(2) {
+        img {
+          margin-top: -2rem;
+        }
+      }
+      &:nth-of-type(3) {
+        img {
+          margin-top: -1rem;
+          margin-bottom: -9rem;
+        }
+      }
+    }
+  }
+}
+
+#our-story {
+  .wrapper-duct-tape {
+    margin: 0 auto;
+    padding: 0 1rem;
+    max-width: 1024px;
+    @include at-query($min, $large) {
+      padding: 0;
+    }
+  }
+  .our-story-hero-container {
+    text-align: center;
+    .headline {
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+  }
+  .our-story-obsessed-container {
+    text-align: center;
+    .headline {
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+  }
+  .our-story-big-leagues-container {
+    text-align: center;
+    @include clearfix();
+    .headline {
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    .our-story-big-leagues-left {
+      p {
+        line-height: 1.7;
+        font-family: $altFontStack;
+        @include at-query($min, $large) {
+          text-align: left;
+          margin: 2rem 1.5rem 0 7rem;
+          &:first-child {
+            margin-top: 4rem;
+          }
+        }
+      }
+      img {
+        padding: 1rem;
+        background-color: #fff;
+        box-shadow: 0 1px 0 1px transparentize($colorTextBody, 0.8);
+        @include at-query($min, $large) {
+          margin-top: 4rem;
+        }
+      }
+      @include at-query($min, $large) {
+        float: left;
+        width: 45%;
+      }
+    }
+    .our-story-big-leagues-right {
+      p {
+        line-height: 1.7;
+        font-family: $altFontStack;
+        @include at-query($min, $large) {
+          text-align: left;
+          margin: 2rem 6rem 0 1.5rem;
+        }
+      }
+      img {
+        border: 2px solid #000;
+      }
+      @include at-query($min, $large) {
+        float: right;
+        width: 54%;
+      }
+    }
+  }
+  .our-story-meat-geeks-container {
+    margin-top: 4rem;
+    text-align: center;
+    .headline {
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    p {
+      margin: 2rem auto;
+      padding: 0 2rem;
+      font-family: $altFontStack;
+      line-height: 1.7;
+      max-width: 1024px;
+    }
+    .collage-container {
+      margin: 0 auto;
+      padding: 5px;
+      max-width: 1200px;
+      .collage {
+        line-height: 0;
+        -webkit-column-gap: 0;
+        -moz-column-gap: 0;
+        column-gap: 0;
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+        @include at-query($min, $large) {
+          -webkit-column-count: 4;
+          -moz-column-count: 4;
+          column-count: 4;
+        }
+        img {
+          padding: 5px;
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+  .our-story-tribe-container {
+    margin-top: 2rem;
+    text-align: center;
+    .headline {
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    .quote-stack {
+      margin: 3rem auto;
+      padding: 3rem 1rem;
+      @include zigzag();
+      // background-color: #667976;
+      background-color: $colorFooterBg;
+      box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.5), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.5);
+      img {
+        display: block;
+        margin: 1rem auto;
+      }
+    }
+  }
+
+
+  .our-story-all-started-container {
+    position: relative;
+    margin-bottom: 2rem;
+    height: 100%;
+    @include clearfix();
+    img {
+      &:first-child {
+        display: block;
+        margin: 0;
+        padding: 1rem 1rem 0 1rem;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 1px 0 1px transparentize($colorTextBody, 0.8);
+        @include at-query($min, $large) {
+          float: right;
+          padding: 0;
+          width: 70%;
+          background-color: transparent;
+          box-shadow: none;
+        }
+      }
+    }
+    .our-story-all-started-container__copy-box {
+      position: relative;
+      // z-index: 10;
+      margin: 0 auto;
+      padding: 0 1rem 1rem 1rem;
+      background-color: #fff;
+      box-shadow: 0 1px 0 1px transparentize($colorTextBody, 0.8);
+      @include at-query($min, $large) {
+        position: absolute;
+        margin: 0;
+        padding: 1rem;
+        max-width: 55%;
+        top: 50%;
+        @include prefixer(transform, translateY(-50%), webkit moz ms spec);
+      }
+      div {
+        text-align: center;
+        padding: 2rem 1rem 1rem 1rem;
+        border: 1px solid transparentize($colorTextBody, 0.7);
+        border-top: none;
+        @include at-query($min, $large) {
+          padding: 1rem;
+          border: 1px solid transparentize($colorTextBody, 0.7);
+        }
+        h3 {
+          font-family: $altHeaderFontStack;
+          font-size: 1.5rem;
+          line-height: 1;
+          text-transform: uppercase;
+          font-weight: 700;
+          &::after {
+            display: block;
+            content: "";
+            width: 90%;
+            margin: 0 auto;
+            padding: 1rem 0;
+            opacity: 0.2;
+            background: transparent url('{{ "rule-squiggle-background.png" | asset_url }}') center center repeat-x;
+          }
+        }
+        p {
+          margin: 1rem 0.5rem;
+          font-family: $headerFontStack;
+          font-style: italic;
+          font-size: 1.2rem;
+          line-height: 1.7;
+          @include at-query($min, $large) {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+  .our-story-all-started-bottom-container {
+    position: relative;
+    margin-bottom: 2rem;
+    img {
+      padding: 1rem;
+      background-color: #fff;
+      box-shadow: 0 1px 0 1px transparentize($colorTextBody, 0.8);
+      @include at-query($min, $large) {
+        max-width: 62%;
+      }
+    }
+    div {
+      margin: 2rem 0;
+      p {
+        text-align: center;
+        font-family: $altFontStack;
+        line-height: 1.7;
+        @include at-query($min, $large) {
+          text-align: left;
+        }
+      }
+      @include at-query($min, $large) {
+        position: absolute;
+        margin: 0;
+        width: 36%;
+        right: 0;
+        top: 50%;
+        @include prefixer(transform, translateY(-50%), webkit moz ms spec);
+      }
+    }
+  }
+}
+
+#contact {
+  // .wrapper-duct-tape {
+  //   margin: 0 auto;
+  //   padding: 0 1rem;
+  //   max-width: 800px;
+  //   @include at-query($min, $large) {
+  //     padding: 0;
+  //   }
+  //   h1 {
+  //     margin: 2rem auto;
+  //     font-family: $altHeaderFontStack;
+  //   }
+  // }
+}
+
+.locator-wrapper {
+  margin-top: 4rem;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: $radius * 2;
+  box-shadow: inset 0 0 1px 0 $colorTextBody;
+}
+
+#pre-footer {
+  margin-top: 0;
+  #pre-footer-bottom {
+    position: relative;
+    min-height: 39px;
+    margin-top: 240px;
+    border-bottom: 1px solid transparent;
+    img {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      max-width: initial;
+    }
+    @include zigzag();
+    &.chipotle {
+      background-color: #a51e1e;
+      border-color: transparentize(#a51e1e, 0.2);
+      img {
+        right: -20px;
+        bottom: -1px;
+        @include at-query($min, $medium) {
+          right: 0;
+        }
+      }
+    }
+    &.honey {
+      background-color: #dc9800;
+      border-color: transparentize(#dc9800, 0.2);
+      img {
+        right: -180px;
+        @include at-query($min, $medium) {
+          right: -10px;
+        }
+      }
+    }
+    &.lime {
+      background-color: #83a53f;
+      border-color: transparentize(#83a53f, 0.2);
+      img {
+        right: -60px;
+        bottom: 18px;
+        @include at-query($min, $medium) {
+          right: 0;
+        }
+      }
+    }
+    &.peach {
+      background-color: #faa700;
+      border-color: transparentize(#faa700, 0.2);
+      img {
+        right: -40px;
+        bottom: -1px;
+        @include at-query($min, $medium) {
+          right: 0;
+        }
+      }
+    }
+    &.serano {
+      background-color: #c12609;
+      border-color: transparentize(#c12609, 0.2);
+      img {
+        right: -50px;
+        bottom: -1px;
+        @include at-query($min, $medium) {
+          right: 0;
+        }
+      }
+    }
+    &.tomato {
+      background-color: #c20000;
+      border-color: transparentize(#c20000, 0.2);
+      img {
+        right: -180px;
+        bottom: -1px;
+        @include at-query($min, $medium) {
+          right: 0;
+        }
+      }
+    }
+  }
+}
+
+/*============================================================================
+  #Site Footer
+==============================================================================*/
+.site-footer {
+
+
+  @include at-query ($min, $large) {
+    padding: ($gutter * 2) 0;
+  }
+}
+
+
+.site-footer {
+  font-family: $altFontStack;
+  color: #9f9f9d;
+  background-color: $colorFooterBg;
+  padding: 6rem 0 8rem 0;
+  // @include zigzag();
+  #newsletter-cta {
+    margin-bottom: 6rem;
+    text-align: center;
+    color: #fff;
+    h3 {
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: 2px;
+      @include at-query($min, $medium) {
+        font-size: 3.5rem;
+      }
+    }
+    h4 {
+      margin: 0 0 3rem 0;
+      font-family: $bodyFontStack;
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1;
+      @include at-query($min, $medium) {
+        font-size: 2rem;
+      }
+    }
+    .input-group-btn {
+      padding-left: 1rem;
+      .btn {
+        font-family: $headerFontStack;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 1.5rem;
+        padding-left: 8px;
+        padding-right: 8px;
+        line-height: 1.2rem;
+        background-color: transparent;
+        border: 1px solid #fff;
+        box-shadow: inset 0 0 0 2px #fff;
+      }
+    }
+  }
+  p {
+    text-transform: uppercase;
+    margin: 0 0 0.8rem 0;
+    font-size: 0.8rem;
+  }
+  .social-icons {
+    margin: 0;
+    li {
+      margin: 0 0.5rem;
+    }
+  }
+  .footer-menu {
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+    li {
+      margin-left: 0.1rem;
+      a {
+        color: #9f9f9d;
+        font-size: 0.8rem;
+      }
+      &::before {
+        content: "\2022";
+        margin-right: 0.3rem;
+      }
+      &:first-child {
+        margin: 0;
+        &::before {
+          content: "";
+        }
+      }
+    }
+  }
+}
+
+.nw {
+  white-space: nowrap;
+}
+

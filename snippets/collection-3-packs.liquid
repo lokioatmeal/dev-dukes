@@ -1,0 +1,17 @@
+{% assign thisCollection = collections["3-packs"] %}
+{% assign collection_title = (thisCollection.title | escape) %}
+{% assign collection_handle = thisCollection.handle %}
+
+<div class="wrapper">
+
+  <div class="collection-container collection-container__{{ collection_handle }}">
+    <div class="silly-mega-button"><p><i class="btn btn--alt">Single-Serve Packs</i></p></div>
+    <div class="grid-uniform">
+      {% for product in thisCollection.products %}
+        {% assign grid_item_width = 'large--one-quarter medium--one-half' %}
+        {% include 'product-grid-item' %}
+      {% endfor %}
+    </div>
+  </div>
+
+</div>

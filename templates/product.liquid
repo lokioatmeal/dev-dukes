@@ -1,6 +1,21 @@
 <!-- /templates/product.liquid -->
 {% comment %}
 
+  This template expects two metafields on the product:
+    - metafields.supercustom.hexcolor (for the Add to Cart button)
+    - metafields.nutritionals.ingredients (for the ingredients list)
+
+  This template assumes there are at least 5 images attached to the product with '-ignore' in the filename.
+  These -ignore files are used for vraious support images on each product page.
+    - [product.handle]-[product.weight_in_unit]-[name-for-use]-ignore.png 
+      E.g. chipotle-bbq-2.5oz-protein-and-sugar-ignore.png
+      E.g. chipotle-bbq-2.5oz-meat-info-ignore.png
+      E.g. chipotle-bbq-2.5oz-wood-info-ignore.png
+      E.g. chipotle-bbq-2.5oz-batch-info-ignore.png
+      E.g. chipotle-bbq-2.5oz-nutrition-label-ignore.png
+  (Note: should create defaults.)
+
+
   Rich snippets (itemscope, itemtype, etc.) for products are a theme requirement,
   and allow search engines to easily understand what the content is.
 
@@ -19,128 +34,224 @@
   {% endcomment %}
   {% assign current_variant = product.selected_or_first_available_variant %}
 
-  {% include 'breadcrumb' %}
+  <div class="wrapper">
 
-  <div class="grid product-single">
-    <div class="grid__item large--one-half text-center">
-      <div class="product-single__photos" id="ProductPhoto">
-        {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
-        <img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
-      </div>
+    <div class="product-single">
 
-      {% comment %}
-        Create thumbnails if we have more than one product image
-      {% endcomment %}
-      {% if product.images.size > 1 %}
-        <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+      <div class="product-single__split-container">
 
-          {% for image in product.images %}
+        <div class="product-single__photos-container">
+          <div class="product-single__photos" id="ProductPhoto">
+            {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+            <img src="{{ featured_image | img_url: 'grande' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
+          </div>
+          {% comment %}
+            Create thumbnails if we have more than one product image
+            (Note: hide for now since I’ve yet to figure out how to base images.size on a modified array. E.g. *after* the -igmore images are removed.)
+          {% endcomment %}
+          {% if product.images.size > 1 %}
+          <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs" style="display:none;">
+            {% for image in product.images %}
+              {% unless image.src contains 'ignore' %}
             <li class="grid__item one-quarter">
               <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
                 <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
               </a>
             </li>
-          {% endfor %}
+              {% endunless %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
 
-        </ul>
-      {% endif %}
-    </div>
+        <div class="product-single__info-container">
+          <h1 itemprop="name">{{ product.title | remove: "3 Packs" }}</h1>
+          {% if product.type %}
+          <h2>{{ product.type }}</h2>
+          {% endif %}
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+            <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+            {% comment %}
+              ID addToCartForm is a selector for the ajax cart plugin
+              <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+            {% endcomment %}
+            
+              {% comment %}
+                Add product variants as a dropdown.
+                  - By default, each variant (or combination of variants) will display as its own <option>
+                  - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
 
-    <div class="grid__item large--one-half">
+                You can leverage jQuery to add a callback on page load and each time the select element changes:
+                  - Include option_selection.js (as seen at the bottom of this file)
+                  - This allows you to use JavaScript anytime the variant dropdown changes
+                  - This also separates out your variant options (ie. size, color, etc.) to separate select elements
 
-      <h1 itemprop="name">{{ product.title }}</h1>
+                For more information on products with multiple options, visit:
+                  - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+              {% endcomment %}
 
-      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
 
-        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
-        {% comment %}
-          ID addToCartForm is a selector for the ajax cart plugin
-        {% endcomment %}
-        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+              {% for variant in product.variants %}
+                {% if variant.available and products.variants.size > 1 %}
+                <input type="radio" name="id" value="{{variant.id}}" id="radio_{{variant.id}}" {%if forloop.first%} checked="checked" {%endif%} />
+                <label for="radio_{{variant.id}}">{{ variant.price | money }} • {{ variant.title }}</label><br />
+                {% endif %}
+              {% endfor %}
 
-          {% comment %}
-            Add product variants as a dropdown.
-              - By default, each variant (or combination of variants) will display as its own <option>
-              - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
 
-            You can leverage jQuery to add a callback on page load and each time the select element changes:
-              - Include option_selection.js (as seen at the bottom of this file)
-              - This allows you to use JavaScript anytime the variant dropdown changes
-              - This also separates out your variant options (ie. size, color, etc.) to separate select elements
 
-            For more information on products with multiple options, visit:
-              - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
-          {% endcomment %}
-          <select name="id" id="productSelect" class="product-single__variants">
-            {% for variant in product.variants %}
-              {% if variant.available %}
-
+              <select name="id" id="productSelect" class="product-single__variants">
+              {% for variant in product.variants %}
+                {% if variant.available %}
                 {% comment %}
                   Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
                 {% endcomment %}
                 <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
-
-              {% else %}
-                <option disabled="disabled">
-                  {{ variant.title }} - {{ 'products.product.sold_out' | t }}
-                </option>
+                {% else %}
+                <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                {% endif %}
+              {% endfor %}
+              </select>
+              <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+              <div class="product-price-wrapper">
+                <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100 }}">{{ current_variant.price | money }}</span>
+              </div>
+              {% if product.compare_at_price_max > product.price %}
+              <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+              <p id="ComparePrice">{{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}</p>
               {% endif %}
-            {% endfor %}
-          </select>
 
-          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-          <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100 }}">
-            {{ current_variant.price | money }}
-          </span>
 
-          {% if product.compare_at_price_max > product.price %}
-            <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-            <p id="ComparePrice">
-              {{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}
-            </p>
+{% comment %}
+XXXXXXXXXX
+We are manually hiding the ability to purchase temporarily.
+<!-- 
+              <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+ -->
+              <button type="submit" name="add" id="AddToCart" class="btn" style="background-color:#{{ product.metafields.supercustom.hexcolor }};">
+                <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+              </button>
+            </form>
+XXXXXXXXXX
+{% endcomment %}
+
+            <h4 style="color:#{{ product.metafields.supercustom.hexcolor }};border-color:#{{ product.metafields.supercustom.hexcolor }};">Available Soon</h4>
+
+          </div>
+          <div class="product-description rte" itemprop="description">
+            <p>{{ product.description }}</p>
+          </div>
+
+          {% for protein_and_sugar in product.images %}
+            {% if protein_and_sugar.src contains 'protein-and-sugar' %}
+          <div>{{ protein_and_sugar | img_url: 'grande' | img_tag }}</div>
+            {% endif %}
+          {% endfor %}
+
+          <div class="text-center">
+            <ul class="inline-list social-icons">
+              <li>
+                <a class="icon-fallback-text" href="http://www.facebook.com/sharer/sharer.php?u=http://{{ shop.domain }}{{ product.url }}" title="Share this item on Facebook">
+                  <span class="icon icon-facebook" aria-hidden="true"></span>
+                  <span class="fallback-text">Facebook</span>
+                </a>
+              </li>
+              <li>
+                <a class="icon-fallback-text" href="https://twitter.com/intent/tweet?text={{ product.title | url_encode | truncate: 30 }}&url=http%3A%2F%2F{{ shop.domain }}{{ product.url | replace: '/', '%2F' }}&via=dukesmeats" title="Share this item on Twitter">
+                  <span class="icon icon-twitter" aria-hidden="true"></span>
+                  <span class="fallback-text">Twitter</span>
+                </a>
+              </li>
+              <li>
+                <a class="icon-fallback-text" href="//pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}&amp;media=http:{{ product | img_url: '1024x1024' | split: '?' | first }}&amp;description={{ product.title | strip_html | truncate: 200, '' | url_param_escape }}" data-pin-do="buttonPin" data-pin-config="none" target="_blank" title="Share this item on Pinterest">
+                  <span class="icon icon-pinterest" aria-hidden="true"></span>
+                  <span class="fallback-text">Pinterest</span>
+                </a>
+              </li>
+<!--                 <li>
+                <a class="icon-fallback-text" href="{{ settings.social_instagram_link }}" title="Share this item on Instagram">
+                  <span class="icon icon-instagram" aria-hidden="true"></span>
+                  <span class="fallback-text">Instagram</span>
+                </a>
+              </li> -->
+            </ul>
+          </div>
+          {% comment %}
+            If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
+            in the URL, we can show next/previous links to other products in the collection.
+          {% endcomment %}
+          {% if collection %}
+            {% if collection.previous_product or collection.next_product %}
+          <p class="hide">
+                {% if collection.previous_product %}
+            <span class="left">
+              {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
+            </span>
+                {% endif %}
+                {% if collection.next_product %}
+            <span class="right">
+              {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
+            </span>
+                {% endif %}
+          </p>
+            {% endif %}
           {% endif %}
 
-          <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
-          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+        </div>
 
-          <button type="submit" name="add" id="AddToCart" class="btn">
-            <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
-          </button>
-        </form>
+      </div><!-- /product-single__split-container -->
 
+      <div class="product-single__supporting-container">
+        {% for meat_info in product.images %}
+          {% if meat_info.src contains 'meat-info' %}
+        <div>{{ meat_info | img_url: 'grande' | img_tag }}</div>
+          {% endif %}
+        {% endfor %}
+        {% for wood_info in product.images %}
+          {% if wood_info.src contains 'wood-info' %}
+        <div>{{ wood_info | img_url: 'grande' | img_tag }}</div>
+          {% endif %}
+        {% endfor %}
+        {% for batch_info in product.images %}
+          {% if batch_info.src contains 'batch-info' %}
+        <div>{{ batch_info | img_url: 'grande' | img_tag }}</div>
+          {% endif %}
+        {% endfor %}
       </div>
 
-      <div class="product-description rte" itemprop="description">
-        {{ product.description }}
-      </div>
-
-      {% comment %}
-        If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
-        in the URL, we can show next/previous links to other products in the collection.
-      {% endcomment %}
-      {% if collection %}
-        {% if collection.previous_product or collection.next_product %}
-          <p>
-            {% if collection.previous_product %}
-              <span class="left">
-                {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
-              </span>
-            {% endif %}
-            {% if collection.next_product %}
-              <span class="right">
-                {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
-              </span>
-            {% endif %}
-          </p>
+      {% assign down_product_type = product.type | downcase %}
+      {% unless down_product_type contains "strips" %}
+        {% assign whichmeat = "pork" %}
+        {% if product.handle contains "tomato-basil" %}
+          {% assign whichmeat = "poultry" %}
         {% endif %}
-      {% endif %}
+      <div class="product-single__footnotes">
+        <p>* Federal regulations prohibit the use of hormones in {{ whichmeat }}. ** Except for those naturally occurring in sea salt and celery powder.</p>
+      </div>
+      {% endunless %}
+      <div class="silly-mega-button">
+        <p><a href="#" class="btn btn--alt"><span>View</span> Full Nutitionals<br class="medium-down--show" /> & Ingredients</a></p>
+        <em class="icon icon-arrow-down"></em>
+      </div>
+      <div class="product-single__nutritionals">
+        <div>
+        {% for nutrition_label in product.images %}
+          {% if nutrition_label.src contains '-nutrition-label' and nutrition_label.src contains '5oz' or nutrition_label.src contains '4oz' %}
+          <img src="{{ nutrition_label | img_url: 'original' }}" alt="Nutrition Label" id="ProductNutritionLabelImg">
+          {% endif %}
+        {% endfor %}
+        </div>
+        {% if product.metafields.nutritionals.ingredients %}
+        <p><b>Ingredients</b>: {{ product.metafields.nutritionals.ingredients }}</p>
+        {% endif %}
+      </div>
 
-    </div>
-  </div>
-
-</div>
+    </div><!-- /product-single -->
+  </div><!-- /wrapper -->
+</div><!-- (itemscope) -->
 
 {% comment %}
   To take advantage of a callback on the select dropdown, add option_selection.js
@@ -159,29 +270,43 @@
 {% endcomment %}
 {{ 'option_selection.js' | shopify_asset_url | script_tag }}
 <script>
-  var selectCallback = function(variant, selector) {
-    timber.productPage({
-      money_format: "{{ shop.money_format }}",
-      variant: variant,
-      selector: selector
-    });
-  };
-
-  jQuery(function($) {
-    new Shopify.OptionSelectors('productSelect', {
-      product: {{ product | json }},
-      onVariantSelected: selectCallback,
-      enableHistoryState: true
-    });
-
-    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
-    {% if product.options.size == 1 and product.options.first != 'Title' %}
-      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
-    {% endif %}
-
-    // Hide selectors if we only have 1 variant and its title contains 'Default'.
-    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-      $('.selector-wrapper').hide();
-    {% endif %}
+var selectCallback = function(variant, selector) {
+  timber.productPage({
+    money_format: "{{ shop.money_format }}",
+    variant: variant,
+    selector: selector
   });
+};
+
+jQuery(function($) {
+  new Shopify.OptionSelectors('productSelect', {
+    product: {{ product | json }},
+    onVariantSelected: selectCallback,
+    enableHistoryState: true
+  });
+
+  // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+  {% if product.options.size == 1 and product.options.first != 'Title' %}
+    // $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+  {% endif %}
+
+  // Hide selectors if we only have 1 variant and its title contains 'Default'.
+  {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+    $('.selector-wrapper').hide();
+  {% endif %}
+});
 </script>
+
+
+
+{% if product.type contains "Strips" %}
+  {% include 'collection-beef-steak-strips' %}
+  <div class="wrapper"><hr /></div>
+  {% include 'collection-smoked-shorty-sausages' %}
+{% else %}
+  {% include 'collection-smoked-shorty-sausages' %}
+  <div class="wrapper"><hr /></div>
+  {% include 'collection-beef-steak-strips' %}
+{% endif %}
+
+

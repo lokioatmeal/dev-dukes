@@ -1,0 +1,20 @@
+{% assign thisCollection = collections["smoked-shorty-sausages"] %}
+{% assign collection_description = thisCollection.description %}
+{% assign collection_handle = thisCollection.handle %}
+
+<div class="wrapper">
+
+  <div class="collection-container collection-container__{{ collection_handle }}">
+    {{ collection_handle | append: '-collection-header.png' | asset_url | img_tag }}
+    <p class="collection-container__description">{{ collection_description }}</p>
+    <div class="grid-uniform">
+      {% for product in thisCollection.products %}
+        {% assign grid_item_width = 'large--one-third medium--one-half' %}
+        {% include 'product-grid-item' %}
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% include 'collection-3-packs' %}

@@ -207,6 +207,7 @@ timber.productPage = function (options) {
 
   // Selectors
   var $productImage = $('#ProductPhotoImg'),
+      $productNutritionLabelImage = $('#ProductNutritionLabelImg'),
       $addToCart = $('#AddToCart'),
       $productPrice = $('#ProductPrice'),
       $comparePrice = $('#ComparePrice'),
@@ -494,3 +495,60 @@ timber.Drawers = (function () {
 
 // Initialize Timber's JS on docready
 $(timber.init);
+
+
+
+
+// Duke’s functions
+window.dukes = window.dukes || {};
+
+dukes.init = function () {
+  dukes.randoPreFooters();
+  dukes.productNutritionalsToggle();
+  // dukes.sugarCoatingMadness();
+};
+
+dukes.productNutritionalsToggle = function() {
+  if ($(".product-single__nutritionals").length) {
+    $(".product-single .silly-mega-button").on("click", function(e) {
+      e.preventDefault();
+      if( $(this).find("span").html() == "View" ) {
+        $(this).find("span").html("Hide");
+        $(".product-single__nutritionals").slideDown("fast");
+        $(this).find("em").addClass("point-up");
+      } else {
+        $(this).find("span").html("View");
+        $(".product-single__nutritionals").slideUp("fast");
+        $(this).find("em").removeClass("point-up");
+      }
+    });
+  }
+};
+
+dukes.randoPreFooters = function() {
+  var randoList = ['chipotle', 'honey', 'lime', 'peach', 'serano', 'tomato'];
+  var whichRando = randoList[Math.floor(Math.random()*randoList.length)];
+  $("#pre-footer-bottom").removeClass().addClass(whichRando);
+  $("#pre-footer-bottom img").each(function() {
+    if ($(this).attr("src").indexOf(whichRando) > 1) {
+      $(this).css("display", "block");
+    }
+  });
+}
+
+dukes.sugarCoatingMadness = function() {
+  // Is this the right way to do this?
+  $(".flavor-not-sugar-sugarcoating-container__sugar-stack-item").find("h3, img, h4").hover(
+    function(e) { // mouseover
+      $(this).closest(".flavor-not-sugar-sugarcoating-container__sugar-stack-item").addClass('hover');
+    },
+    function(e) { // mouseout
+      $(this).closest(".flavor-not-sugar-sugarcoating-container__sugar-stack-item").removeClass('hover');
+    }
+  );
+}
+
+// Initialize Duke’s's JS on docready
+$(dukes.init);
+
+

@@ -51,26 +51,43 @@
       - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
 
   {% endcomment %}
-  <a href="{{ product.url | within: collection }}" class="grid__image">
-    <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-  </a>
+  <div class="product-grid-item-container">
+    <a href="{{ product.url | within: collection }}" class="grid__image">
+      <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+    </a>
+    <h3><a href="{{ product.url | within: collection }}">{{ product.title | remove: "3 Packs" }}</a></h3>
 
-  <p class="h6">
-    <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-  </p>
-  <p>
-    {% comment %}
+
+    {% if product.type %}
+      {% comment %}
+      This is a terrible hack and its only purpose is to ensure there is a line break in the product.type
+      string if the product it one of the 3 Packs. There must be a better way to achieve this result.
+      {% endcomment %}
+      {% if product.title contains "3 Packs" %}
+        {% if product.type contains "Chicken" %}
+    <h4>Smoked Chicken<br /> Shorty® Sausages</h4>
+        {% else %}
+    <h4>Smoked<br /> Shorty® Sausages</h4>
+        {% endif %}
+      {% else %}
+    <h4>{{ product.type }}</h4>
+      {% endif %}
+    {% endif %}
+
+
+    <p>
+      {% comment %}
       You can show a leading 'from' or 'up to' by checking 'product.price_varies'
       if your variants have different prices.
-    {% endcomment %}
-    {% if on_sale %}
-      {% if product.price_varies %}
-        {% assign sale_price = product.price | money %}
-        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
-      {% else %}
-        <strong>{{ 'products.product.on_sale' | t }}</strong>
-        {{ product.price | money }}
-      {% endif %}
+      {% endcomment %}
+      {% if on_sale %}
+        {% if product.price_varies %}
+          {% assign sale_price = product.price | money %}
+      {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+        {% else %}
+      <strong>{{ 'products.product.on_sale' | t }}</strong>
+      {{ product.price | money }}
+        {% endif %}
     {% else %}
       {% if product.price_varies %}
         {% assign price = product.price | money %}
@@ -85,7 +102,53 @@
     {% if on_sale %}
       <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
       <br><s>{{ product.compare_at_price | money }}</s>
-    {% endif %}
-  </p>
+      {% endif %}
+    </p>
+    <ul>
+      <li><a href="{{ product.url | within: collection }}">Learn More</a></li>
+
+{% comment %}
+      <li>
+<!-- <a href="{{ product.url | within: collection }}">Add to Cart</a> -->
+        <form action="/cart/add" method="post" class="clearfix" id="product-form-{{ product.id }}">
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+          {% if product.available %}
+              <button type="submit" name="add" id="add-to-cart">Add To Cart</button>
+          {% else %}
+              <h6>Available Soon</h6>
+          {% endif %}
+        </form>
+
+        <h6>Available Soon</h6>
+      </li>
+{% endcomment %}
+
+
+    </ul>
+  </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

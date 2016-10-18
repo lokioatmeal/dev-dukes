@@ -1,0 +1,112 @@
+<!-- /templates/page.flavor-not-sugar.liquid -->
+
+
+<div class="wrapper">
+
+  <div class="flavor-not-sugar-hero-container">
+    {{ 'hero-flavor-not-sugar.png' | asset_url | img_tag: 'Full of fresh flavor, not sugar.' }}
+    <p>At Duke’s we are committed to carefully crafting our smoked meats with real, whole ingredients, not a lot of sugar. Our Freshly Crafted small batch process allows us to give our meats loads of flavor without any sugar-stuffing shortcuts.</p>
+  </div>
+
+  <div class="flavor-not-sugar-sugarcoating-container">
+    <h2><span>Is your protein snack</span> sugarcoating the truth?</h2>
+    <div class="flavor-not-sugar-sugarcoating-container__sugar-stack-container">
+      <div class="flavor-not-sugar-sugarcoating-container__sugar-stack-item">
+        <h3>Leading<br /> “Gourmet”<br /> Jerky <span>11 <i>Grams<br /> of Sugar</i></span></h3>
+        <h4>That’s more sugar than a glazed donut</h4>
+        {{ 'sugarcoating-donut.png' | asset_url | img_tag: 'Donut' }}
+      </div>
+      <div class="flavor-not-sugar-sugarcoating-container__sugar-stack-item">
+        <h3>Leading<br /> Nutrition<br /> Bar <span>22 <i>Grams<br /> of Sugar</i></span></h3>
+        <h4>That’s more sugar than 6 cookies</h4>
+        {{ 'sugarcoating-cookies.png' | asset_url | img_tag: 'Cookies' }}
+      </div>
+      <div class="flavor-not-sugar-sugarcoating-container__sugar-stack-item">
+        <h3>Leading<br /> Meat<br /> Bar <span>9 <i>Grams<br /> of Sugar</i></span></h3>
+        <h4>That’s more sugar than 3 scoops of ice cream</h4>
+        {{ 'sugarcoating-ice-cream.png' | asset_url | img_tag: 'Ice Cream' }}
+      </div>
+    </div>
+    <p>To save time and cost, some leading “healthy” jerkies contain as much as 38.5g of sugar in a 92g bag. That’s 42% sugar! <span>We’re not math geniuses, but we’re pretty sure that’s a lot of sugar.</span></p>
+  </div>
+
+  <div class="flavor-not-sugar-shortcuts-container">
+    <h2><span>Sugar Shortcuts?</span> Not in Our Smokehouse</h2>
+    <div class="grid-uniform">
+
+      {% assign this_product = all_products['chorizo-lime'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-chorizo-lime.png' | asset_url | img_tag: 'Chorizo Lime is 0g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['hatch-green-chile'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-hatch-green-chile.png' | asset_url | img_tag: 'Hatch Green Chile is 0g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['traditional-sea-salt'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-traditional-sea-salt.png' | asset_url | img_tag: 'Traditional Sea Salt is 2g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['original-recipe'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-original-recipe.png' | asset_url | img_tag: 'Original Recipe is 1g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['hot-spicy'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-hot-spicy.png' | asset_url | img_tag: 'Hot and Spicy is 1g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['tomato-basil'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-tomato-basil.png' | asset_url | img_tag: 'Tomato Basil is 1g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['chipotle-bbq'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-chipotle-bbq.png' | asset_url | img_tag: 'Chipotle BBQ is 5g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['honey-bourbon'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-honey-bourbon.png' | asset_url | img_tag: 'Honey Bourbon is 3g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+      {% assign this_product = all_products['hickory-peach-bbq'] %}
+      <div class="grid__item medium--one-half large--one-third">
+        <a href="{{ this_product.url }}">
+          {{ 'sugar-shortcuts-hickory-peach-bbq.png' | asset_url | img_tag: 'Hickory Peach BBQ is 2g sugar per serving.' }}
+          {{ this_product.featured_image.src | img_url: 'large' | img_tag }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>

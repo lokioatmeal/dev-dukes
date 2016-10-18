@@ -1,0 +1,134 @@
+<!-- begin site-footer -->
+
+{% include 'pre-footer' %}
+
+<footer class="site-footer" role="contentinfo">
+
+  <div class="wrapper">
+
+    <div class="grid">
+
+      {% comment %}
+      The main contact form and the newletter form share an id and submit to the same place.
+      Therefore, don’t show newsletter form on /contact page.
+      {% endcomment %}
+      {% unless page.handle == 'contact' %}
+      <div class="grid__item">
+        <div id="newsletter-cta">
+          <h3>Sign up for our newsletter</h3>
+          <h4>Be the first to know about the latest Duke’s news and deals.</h4>
+          <div class="grid">
+            <div class="grid__item medium--four-sixths push--medium--one-sixth large--one-half push--large--one-quarter">
+
+              <div id="newsletter-form-container">
+                {% if settings.newsletter_form_action != blank %}
+                <form action="{{ settings.newsletter_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group">
+                  <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                  <span class="input-group-btn">
+                    <input type="submit" class="btn" name="subscribe" id="subscribe" value="{{ 'general.newsletter_form.submit' | t }}">
+                  </span>
+                </form>
+                {% else %}
+                  {% form 'customer' %}
+                    {{ form.errors | default_errors }}
+                    {% if form.posted_successfully? %}
+                <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                    {% else %}
+                <div class="input-group">
+                  <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <span class="input-group-btn">
+                    <input type="submit" class="btn" name="subscribe" id="subscribe" value="{{ 'general.newsletter_form.submit' | t }}">
+                  </span>
+                </div>
+                    {% endif %}
+                  {% endform %}
+                {% endif %}
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      {% endunless %}
+
+      <div class="grid__item medium-down--text-center large--one-third">
+        <p>Copyright © {{ 'now' | date: "%Y" }} Thanasi Foods</p>
+      </div>
+
+
+      {% if settings.footer_social_enable %}
+      <div class="grid__item text-center large--one-third">
+          <ul class="inline-list social-icons">
+            {% if settings.social_facebook_link != blank %}
+              <li>
+                <a class="icon-fallback-text" href="{{ settings.social_facebook_link }}" title="{{ shop.name }} on Facebook">
+                  <span class="icon icon-facebook" aria-hidden="true"></span>
+                  <span class="fallback-text">Facebook</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_twitter_link != blank %}
+              <li>
+                <a class="icon-fallback-text" href="{{ settings.social_twitter_link }}" title="{{ shop.name }} on Twitter">
+                  <span class="icon icon-twitter" aria-hidden="true"></span>
+                  <span class="fallback-text">Twitter</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_instagram_link != blank %}
+              <li>
+                <a class="icon-fallback-text" href="{{ settings.social_instagram_link }}" title="{{ shop.name }} on Instagram">
+                  <span class="icon icon-instagram" aria-hidden="true"></span>
+                  <span class="fallback-text">Instagram</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+      </div>
+      {% endif %}
+
+
+
+      <div class="grid__item text-center large--one-third large--text-right">
+        <ul class="inline-list footer-menu">
+          <li>{{ 'Privacy and Terms' | link_to: pages.privacy.url }}</li>
+{% comment %}
+        {% for link in linklists.footer.links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+{% endcomment %}
+
+        </ul>
+      </div>
+
+
+
+      <div class="grid__item text-center hide">
+        {% comment %}
+          Loop through available payment methods and show their icons.
+        {% endcomment %}
+        {% unless shop.enabled_payment_types == empty %}
+          {% assign payment_icons_available = 'amazon_payments,american_express,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,laser,litecoin,maestro,master,paypal,solo,stripe,switch,visa' | split: ',' %}
+          <h4 class="text-center">{{ 'layout.footer.accepted_payments' | t }}</h4>
+          <ul class="inline-list payment-icons">
+            {% for type in shop.enabled_payment_types %}
+              {% if payment_icons_available contains type %}
+                <li>
+                  <span class="icon-fallback-text">
+                    <span class="icon icon-{{type}}" aria-hidden="true"></span>
+                    <span class="fallback-text">{{ type | replace: '_',' '}}</span>
+                  </span>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endunless %}
+      </div>
+
+
+    </div>
+  </div>
+</footer>
+<!-- //site-footer -->
