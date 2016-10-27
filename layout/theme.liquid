@@ -29,6 +29,7 @@
   <link href="//fonts.googleapis.com/css?family=Arvo:400,400i,700,700i|Droid+Serif:400,400i,700,700i|Open+Sans:400,400i,700,700i|Oswald:400,700" rel="stylesheet">
 
   <!-- CSS ================================================== -->
+  {{ 'slick.css' | asset_url | stylesheet_tag }}
   {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
 
   <!-- Header hook for plugins ================================================== -->
@@ -317,6 +318,7 @@ XXXXXXXXXX
 
   </div>
 
+  {{ 'slick.min.js' | asset_url | script_tag }}
   {{ 'fastclick.min.js' | asset_url | script_tag }}
   {{ 'timber.js' | asset_url | script_tag }}
 

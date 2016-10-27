@@ -2564,6 +2564,14 @@ label.error {
           border-top: 1px solid $colorTextBody;
         }
       }
+      .shipping-notice {
+        margin: 0;
+        padding: 0;
+        font-family: $headerFontStack;
+        color: #c00;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
       .form-vertical {
         select {
           display: inline-block;
@@ -3102,24 +3110,158 @@ label.error {
 #hero-carousel {
   padding: 0;
   margin: 2rem 0 0 0;
-  text-align: center;
-  // @include zigzaglighter();
-  @include zigzag();
-  background-color: #faf9f7;
-  box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
   &::after {
+    position: absolute;
     display: block;
     content: "";
-    height: 30px;
-    background-color: #cb4432;
-    // @include zigzaglighter();
-    @include zigzag();
+    top: 0;
+    width: 100%;
+    height: 2rem;
+    box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
   }
-  div {
-    padding: 1rem 0;
-    img {
+  .slick-arrow {
+    position: absolute;
+    cursor: pointer;
+    z-index: 99;
+    top: 60%;
+    @include prefixer(transform, translateY(-40%), webkit moz ms spec);
+    @include at-query($min, $large) {
+      top: 50%;
+      @include prefixer(transform, translateY(-50%), webkit moz ms spec);
+    }
+    span {
+      font-size: 3rem;
+      line-height: 1;
+      opacity: 0.5;
       @include at-query($min, $large) {
-        max-height: 60vmin;
+        font-size: 6rem;
+      }
+    }
+    &:hover {
+      span {
+        opacity: 1;
+      }
+    }
+    &.slick-prev {
+      left: -0.8rem;
+      @include at-query($min, $large) {
+        left: 0;
+      }
+      span {
+        @include prefixer(transform, rotate(90deg), webkit moz ms spec);
+      }
+    }
+    &.slick-next {
+      right: -0.8rem;
+      @include at-query($min, $large) {
+        right: 0;
+      }
+      span {
+        @include prefixer(transform, rotate(-90deg), webkit moz ms spec);
+      }
+    }
+  }
+  .slick-dots {
+    position: absolute;
+    display: block;
+    bottom: -20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    li {
+      position: relative;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      padding: 0;
+      cursor: pointer;
+      button {
+        font-size: 0;
+        line-height: 0;
+        display: block;
+        width: 10px;
+        height: 10px;
+        padding: 5px;
+        cursor: pointer;
+        color: transparent;
+        border: 0;
+        outline: none;
+        background: transparent;
+        &::before {
+          display: block;
+          content: '';
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 10px;
+          height: 10px;
+          opacity: 0.25;
+          border: 0 solid transparent;
+          border-radius: 50%;
+          background-color: $colorTextBody;
+        }
+      }
+      &.slick-active {
+        button {
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  .hero-carousel__item {
+    padding: 2rem 0;
+    @include zigzaglighter();
+    // @include zigzag();
+    a {
+      outline: none;
+      img {
+        margin: 0 auto;
+        @include at-query($min, $large) {
+          max-height: 60vmin;
+        }
+      }
+    }
+    &.item__one {
+      background: #cb4433 url('{{ "home-hero-01-background.jpg" | asset_url }}') center center no-repeat;
+      background-size: cover;
+      &::before {
+        position: absolute;
+        display: block;
+        content: "";
+        bottom: 0;
+        width: 100%;
+        height: 2rem;
+        background-color: #cb4433;
+        @include zigzaglighter();
+        // @include zigzag();
+      }
+    }
+    &.item__two {
+      background-color: #cb4433;
+    }
+    &.item__three {
+      background-color: #801c13;
+    }
+    &.item__four {
+      background-color: #859742;
+    }
+    &.item__five {
+      background-color: #faf9f7;
+      &::before {
+        position: absolute;
+        display: block;
+        content: "";
+        bottom: 0;
+        width: 100%;
+        height: 2rem;
+        background-color: #cb4432;
+        @include zigzaglighter();
+        // @include zigzag();
       }
     }
   }

@@ -505,7 +505,7 @@ window.dukes = window.dukes || {};
 dukes.init = function () {
   dukes.randoPreFooters();
   dukes.productNutritionalsToggle();
-  // dukes.sugarCoatingMadness();
+  dukes.homeHeroCarousel();
 };
 
 dukes.productNutritionalsToggle = function() {
@@ -536,16 +536,18 @@ dukes.randoPreFooters = function() {
   });
 }
 
-dukes.sugarCoatingMadness = function() {
-  // Is this the right way to do this?
-  $(".flavor-not-sugar-sugarcoating-container__sugar-stack-item").find("h3, img, h4").hover(
-    function(e) { // mouseover
-      $(this).closest(".flavor-not-sugar-sugarcoating-container__sugar-stack-item").addClass('hover');
-    },
-    function(e) { // mouseout
-      $(this).closest(".flavor-not-sugar-sugarcoating-container__sugar-stack-item").removeClass('hover');
-    }
-  );
+dukes.homeHeroCarousel = function() {
+  $('#hero-carousel').slick({
+    prevArrow: "<div class='icon-fallback-text slick-prev'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Previous</span></div>",
+    nextArrow: "<div class='icon-fallback-text slick-next'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Next</span></div>",
+    arrows: true,
+    adaptiveHeight: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    dots: true,
+    fade: true,
+    speed: 1000
+  });
 }
 
 // Initialize Duke’s's JS on docready
