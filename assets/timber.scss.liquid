@@ -3103,7 +3103,8 @@ label.error {
   padding: 0;
   margin: 2rem 0 0 0;
   text-align: center;
-  @include zigzaglighter();
+  // @include zigzaglighter();
+  @include zigzag();
   background-color: #faf9f7;
   box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
   &::after {
@@ -3111,7 +3112,8 @@ label.error {
     content: "";
     height: 30px;
     background-color: #cb4432;
-    @include zigzaglighter();
+    // @include zigzaglighter();
+    @include zigzag();
   }
   div {
     padding: 1rem 0;
@@ -4150,61 +4152,46 @@ label.error {
       background-color: #a51e1e;
       border-color: transparentize(#a51e1e, 0.2);
       img {
-        right: -20px;
+        right: 0;
         bottom: -1px;
-        @include at-query($min, $medium) {
-          right: 0;
-        }
       }
     }
     &.honey {
       background-color: #dc9800;
       border-color: transparentize(#dc9800, 0.2);
       img {
-        right: -180px;
-        @include at-query($min, $medium) {
-          right: -10px;
-        }
+        right: 0;
       }
     }
     &.lime {
       background-color: #83a53f;
       border-color: transparentize(#83a53f, 0.2);
       img {
-        right: -60px;
-        bottom: 18px;
-        @include at-query($min, $medium) {
-          right: 0;
-        }
+        right: 0;
+        bottom: 24px;
       }
     }
     &.peach {
       background-color: #faa700;
       border-color: transparentize(#faa700, 0.2);
       img {
-        right: -40px;
+        right: 0;
         bottom: -1px;
-        @include at-query($min, $medium) {
-          right: 0;
-        }
       }
     }
     &.serano {
       background-color: #c12609;
       border-color: transparentize(#c12609, 0.2);
       img {
-        right: -50px;
+        right: 0;
         bottom: -1px;
-        @include at-query($min, $medium) {
-          right: 0;
-        }
       }
     }
     &.tomato {
       background-color: #c20000;
       border-color: transparentize(#c20000, 0.2);
       img {
-        right: -180px;
+        right: -80px;
         bottom: -1px;
         @include at-query($min, $medium) {
           right: 0;
