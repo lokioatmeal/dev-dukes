@@ -1,9 +1,35 @@
 <!-- /snippets/hero-carousel.liquid -->
 
 <div id="hero-carousel">
-  <div class="zigzag">
+
+  <div>
+    <div class="hero-carousel__item item__five">
+      {{ 'home-hero-05.png' | asset_url | img_tag | link_to: pages.ingredients.url }}
+    </div>
   </div>
-  <div class="hero-container">
-    {{ 'home-hero-01.png' | asset_url | img_tag }}
+
+  <div>
+    <div class="hero-carousel__item item__two">
+      {{ 'home-hero-02.png' | asset_url | img_tag | link_to: collections.smoked-shorty-sausages.url }}
+    </div>
   </div>
+
+  <div>
+    <div class="hero-carousel__item item__three">
+      {{ 'home-hero-03.png' | asset_url | img_tag | link_to: pages.process.url }}
+    </div>
+  </div>
+
+  <div>
+    <div class="hero-carousel__item item__four">
+      {{ 'home-hero-04.png' | asset_url | img_tag | link_to: all_products['hatch-green-chile-3-packs'].url }}
+    </div>
+  </div>
+
+  <div>
+    <div class="hero-carousel__item item__one">
+      {{ 'home-hero-01.png' | asset_url | img_tag | link_to: collections.beef-steak-strips.url }}
+    </div>
+  </div>
+
 </div>
