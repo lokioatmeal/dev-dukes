@@ -5,9 +5,16 @@
 {% assign collectionSausages = collections["smoked-shorty-sausages"] %}
 <div class="wrapper">
   <div class="collection-container collection-container__{{ collectionSausages.handle }}">
+    {{ collectionSausages.handle | append: '-collection-header.png' | asset_url | img_tag: collectionSausages.title | link_to: collectionSausages.url, collectionSausages.title }}
     <div class="collection-container-duct-tape">
-      {{ collectionSausages.handle | append: '-collection-header.png' | asset_url | img_tag: collectionSausages.title | link_to: collectionSausages.url, collectionSausages.title }}
-      {{ 'tmp-home-smoked-shorty-sausages-stack.png' | asset_url | img_tag: collectionSausages.title | link_to: collectionSausages.url, collectionSausages.title }}
+      <div class="collection-carousel" id="shorty-collection-carousel">
+  {% for product in collectionSausages.products %}
+        <div class="collection-carousel__item">
+          <a href="{{ product.url | within: collection }}"><img src="{{ product.featured_image.src | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}"></a>
+        </div>
+  {% endfor %}
+      </div>
+      <!-- {{ 'tmp-home-smoked-shorty-sausages-stack.png' | asset_url | img_tag: collectionSausages.title | link_to: collectionSausages.url, collectionSausages.title }} -->
     </div>
     <div class="silly-mega-button"><p><a href="{{ collectionSausages.url }}" class="btn btn--alt">Shop Smoked<br class="medium-down--show" /> Shorty® Sausages</a></p></div>
   </div>
@@ -16,9 +23,15 @@
 {% assign collectionStrips = collections["beef-steak-strips"] %}
 <div class="wrapper">
   <div class="collection-container collection-container__{{ collectionStrips.handle }}">
+    {{ collectionStrips.handle | append: '-collection-header.png' | asset_url | img_tag: collectionStrips.title | link_to: collectionStrips.url, collectionStrips.title }}
     <div class="collection-container-duct-tape">
-      {{ collectionStrips.handle | append: '-collection-header.png' | asset_url | img_tag: collectionStrips.title | link_to: collectionStrips.url, collectionStrips.title }}
-      {{ 'tmp-home-beef-steak-strips-stack.png' | asset_url | img_tag: collectionStrips.title | link_to: collectionStrips.url, collectionStrips.title }}
+      <div class="collection-carousel" id="strips-collection-carousel">
+  {% for product in collectionStrips.products %}
+        <div class="collection-carousel__item">
+          <a href="{{ product.url | within: collection }}"><img src="{{ product.featured_image.src | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}"></a>
+        </div>
+  {% endfor %}
+      </div>
     </div>
     <div class="silly-mega-button"><p><a href="{{ collectionStrips.url }}" class="btn btn--alt">Shop Beef<br class="medium-down--show" /> Steak Strips</a></p></div>
   </div>
