@@ -505,7 +505,7 @@ window.dukes = window.dukes || {};
 dukes.init = function () {
   dukes.randoPreFooters();
   dukes.productNutritionalsToggle();
-  dukes.homeHeroCarousel();
+  dukes.doCarousels();
 };
 
 dukes.productNutritionalsToggle = function() {
@@ -536,7 +536,8 @@ dukes.randoPreFooters = function() {
   });
 }
 
-dukes.homeHeroCarousel = function() {
+dukes.doCarousels = function() {
+
   $('#hero-carousel').slick({
     prevArrow: "<div class='icon-fallback-text slick-prev'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Previous</span></div>",
     nextArrow: "<div class='icon-fallback-text slick-next'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Next</span></div>",
@@ -548,6 +549,37 @@ dukes.homeHeroCarousel = function() {
     fade: true,
     speed: 1000
   });
+
+  $('#shorty-collection-carousel').slick({
+  // $('.collection-carousel').slick({
+    prevArrow: "<div class='icon-fallback-text slick-prev'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Previous</span></div>",
+    nextArrow: "<div class='icon-fallback-text slick-next'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Next</span></div>",
+    arrows: true,
+    centerMode: true,
+    centerPadding: 0,
+    infinite: true,
+    initialSlide: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3050,
+    // speed: 1000,
+    dots: true,
+    slidesToShow: 3,
+    slidesToScroll: 5
+  });
+
+  $('#strips-collection-carousel').slick({
+  // $('.collection-carousel').slick({
+    centerMode: true,
+    centerPadding: 0,
+    infinite: false,
+    initialSlide: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3050,
+    dots: true,
+    slidesToShow: 3,
+    slidesToScroll: 3
+  });
+
 }
 
 // Initialize Duke’s's JS on docready
