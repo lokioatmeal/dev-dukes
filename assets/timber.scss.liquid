@@ -3135,12 +3135,8 @@ label.error {
     position: absolute;
     cursor: pointer;
     z-index: 99;
-    top: 60%;
-    @include prefixer(transform, translateY(-40%), webkit moz ms spec);
-    @include at-query($min, $large) {
-      top: 50%;
-      @include prefixer(transform, translateY(-50%), webkit moz ms spec);
-    }
+    top: 50%;
+    @include prefixer(transform, translateY(-50%), webkit moz ms spec);
     span {
       font-size: 3rem;
       line-height: 1;
@@ -3226,7 +3222,7 @@ label.error {
     }
   }
   .hero-carousel__item {
-    padding: 2rem 0;
+    padding: 0;
     @include zigzaglighter();
     // @include zigzag();
     a {
@@ -3238,7 +3234,7 @@ label.error {
         }
       }
     }
-    &.item__one {
+    &.item__one { // Goodbye jerky
       background: #cb4433 url('{{ "home-hero-01-background.jpg" | asset_url }}') center center no-repeat;
       background-size: cover;
       &::before {
@@ -3247,22 +3243,27 @@ label.error {
         content: "";
         bottom: 0;
         width: 100%;
-        height: 2rem;
+        height: 0.25rem;
         background-color: #cb4433;
         @include zigzaglighter();
         // @include zigzag();
+        @include at-query($min, $large) {
+          height: 1rem;
+        }
       }
     }
-    &.item__two {
-      background-color: #cb4433;
-    }
-    &.item__three {
-      background-color: #801c13;
-    }
-    &.item__four {
+    &.item__two { // Lordy, lordy
       background-color: #859742;
     }
-    &.item__five {
+    &.item__three { // Shortcuts suck
+      background: #801c13 url('{{ "home-hero-03-background.jpg" | asset_url }}') center center no-repeat;
+      background-size: cover;
+      // background-color: #801c13;
+    }
+    &.item__four { // Protein pick me ups
+      background-color: #cb4433;
+    }
+    &.item__five { // Real, whole ingredients
       background-color: #faf9f7;
       &::before {
         position: absolute;
@@ -3270,10 +3271,13 @@ label.error {
         content: "";
         bottom: 0;
         width: 100%;
-        height: 2rem;
+        height: 0.25rem;
         background-color: #cb4432;
         @include zigzaglighter();
         // @include zigzag();
+        @include at-query($min, $large) {
+          height: 1rem;
+        }
       }
     }
   }
