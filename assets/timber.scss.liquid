@@ -2377,10 +2377,28 @@ label.error {
       margin: 3rem auto 0 auto;
       padding-top: 3rem;
     }
-    .collection-container-duct-tape {
+    p.lead {
+      margin-bottom: 0;
+      font-family: $headerFontStack;
+      font-style: italic;
+      opacity: 0.8;
       @include at-query($min, $large) {
-        padding-top: 2rem;
+        font-size: 1.5rem;
       }
+    }
+    @include at-query($min, $large) {
+      &.collection-container__smoked-shorty-sausages {
+        .collection-container-duct-tape {
+          padding-top: 1rem;
+        }
+      }
+      &.collection-container__beef-steak-strips {
+        .collection-container-duct-tape {
+          padding-top: 2rem;
+        }
+      }
+    }
+    .collection-container-duct-tape {
       .collection-carousel {
         margin: 0 -24px;
         @include at-query($min, $large) {

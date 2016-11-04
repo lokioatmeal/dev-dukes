@@ -6,6 +6,7 @@
 <div class="wrapper">
   <div class="collection-container collection-container__{{ collectionSausages.handle }}">
     {{ collectionSausages.handle | append: '-collection-header.png' | asset_url | img_tag: collectionSausages.title | link_to: collectionSausages.url, collectionSausages.title }}
+    <p class="lead">Roll Over to Explore Our Flavors</p>
     <div class="collection-container-duct-tape">
       <div class="collection-carousel" id="shorty-collection-carousel">
   {% for product in collectionSausages.products %}
