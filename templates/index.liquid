@@ -25,6 +25,7 @@
 <div class="wrapper">
   <div class="collection-container collection-container__{{ collectionStrips.handle }}">
     {{ collectionStrips.handle | append: '-collection-header.png' | asset_url | img_tag: collectionStrips.title | link_to: collectionStrips.url, collectionStrips.title }}
+    <p class="lead">Roll Over to Explore Our Flavors</p>
     <div class="collection-container-duct-tape">
       <div class="collection-carousel" id="strips-collection-carousel">
   {% for product in collectionStrips.products %}

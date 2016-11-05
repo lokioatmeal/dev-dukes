@@ -2406,7 +2406,7 @@ label.error {
       }
       &.collection-container__beef-steak-strips {
         .collection-container-duct-tape {
-          padding-top: 2rem;
+          padding-top: 1rem;
         }
       }
     }
@@ -2430,6 +2430,12 @@ label.error {
               margin: 0;
               padding: 0;
               transition: $drawerTransition;
+              @include backface();
+            }
+            &:hover {
+              img {
+                @include prefixer(transform, scale(1.02) translateZ(0), webkit moz ms spec);
+              }
             }
           }
           &.slick-current {
@@ -2438,7 +2444,12 @@ label.error {
           &:not(.slick-current) {
             a {
               img {
-                @include prefixer(transform, scale(0.8), webkit moz ms spec);
+                @include prefixer(transform, scale(0.8) translateZ(0), webkit moz ms spec);
+              }
+            }
+            &:hover {
+              img {
+                @include prefixer(transform, scale(0.85) translateZ(0), webkit moz ms spec);
               }
             }
           }
@@ -2733,13 +2744,18 @@ label.error {
         left: 50%;
         @include prefixer(transform, translateX(-50%), webkit moz ms spec);
       }
-      h4 { // This h4 is temporary till we decide to actually sell products
-        display: inline-block;
-        margin: 0.5rem auto;
-        padding: 0.25rem 1rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        border: 1px solid transparentize($colorTextBody, 0.8);
+      .silly-mega-button {
+        margin-top: 1rem;
+        cursor: default; // Remove cursor override when shop turns on.
+        p {
+          a,
+          i {
+            cursor: default; // Remove cursor override when shop turns on.
+            &::after {
+              content: "";
+            }
+          }
+        }
       }
       .product-description {
         margin-top: 1rem;
@@ -3783,14 +3799,14 @@ label.error {
           @include at-query($min, $extra-large) { position: absolute; margin-top: 0; bottom: 0; min-height: 3rem; opacity: 0; }
         }
 
-        img { position: relative; display: block; margin: 0 auto; }
+        img { position: relative; display: block; margin: 0 auto; @include backface(); }
 
         &:nth-child(1) {
           img {
             left: 0.5rem; margin-top: -1rem; margin-bottom: -5rem;
             @include at-query($min, $extra-large) {
               margin-top: 4rem; margin-bottom: 0;
-              @include prefixer(transform, scale(1.5), webkit moz ms spec);
+              @include prefixer(transform, scale(1.5) translateZ(0), webkit moz ms spec);
             }
           }
         }
@@ -3798,7 +3814,7 @@ label.error {
           img {
             margin-top: -2rem; margin-bottom: -3rem;
             @include at-query($min, $extra-large) { right: 0; margin-top: 4rem;
-              @include prefixer(transform, scale(1.5), webkit moz ms spec);
+              @include prefixer(transform, scale(1.5) translateZ(0), webkit moz ms spec);
             }
           }
         }
@@ -3806,7 +3822,7 @@ label.error {
           img {
             margin-top: -1rem; margin-bottom: -3rem;
             @include at-query($min, $extra-large) { margin-top: 3.5rem;
-              @include prefixer(transform, scale(1.5), webkit moz ms spec);
+              @include prefixer(transform, scale(1.5) translateZ(0), webkit moz ms spec);
             }
           }
         }
@@ -3877,7 +3893,7 @@ label.error {
         @include clearfix();
         img {
           display: block;
-          @include prefixer(backface-visibility, hidden, webkit moz ms spec);
+          @include backface();
           transition: all 0.2s ease;
           &:first-child {
             opacity: 1;
