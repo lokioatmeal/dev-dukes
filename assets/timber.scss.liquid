@@ -90,6 +90,18 @@ $breakpoint-has-pull:  ('medium', 'medium-down', 'large');
 $colorPrimary: #82a53f;
 $colorSecondary: #bbbbbb;
 
+// Custom Product Base Colors
+// This is ridiculous
+$customProductBaseColor-chipotleBBQ: #911a1e;
+$customProductBaseColor-chorizoLime: #a2b53a;
+$customProductBaseColor-hatchGreenChile: #739435;
+$customProductBaseColor-hickoryPeachBBQ: #da5f28;
+$customProductBaseColor-honeyBourbon: #e29f26;
+$customProductBaseColor-hotSpicy: #ca312d;
+$customProductBaseColor-originalRecipe: #8f6645;
+$customProductBaseColor-tomatoBasil: #c52827;
+$customProductBaseColor-traditionalSeaSalt: #95a5b1;
+
 // Button colors
 $colorBtnPrimary: $colorPrimary;
 $colorBtnPrimaryHover: darken($colorBtnPrimary, 10%);
@@ -2730,6 +2742,7 @@ label.error {
         border: 1px solid transparentize($colorTextBody, 0.8);
       }
       .product-description {
+        margin-top: 1rem;
         font-family: $altFontStack;
         @include at-query($min, $large) {
           min-height: 8rem;
@@ -2778,27 +2791,29 @@ label.error {
     }
   }
   .silly-mega-button {
-    bottom: -2.6rem;
-    @include at-query($min, $large) {
-      bottom: -2.2rem;
-    }
-    p {
-      a,
-      i {
-        &::after {
-          content: "";
+    &.silly-mega-button--toggler {
+      bottom: -2.6rem;
+      @include at-query($min, $large) {
+        bottom: -2.2rem;
+      }
+      p {
+        a,
+        i {
+          &::after {
+            content: "";
+          }
         }
       }
-    }
-    em {
-      position: absolute;
-      bottom: -4rem;
-      font-size: 3rem;
-      transition: 300ms ease;
-      left: 50%;
-      @include prefixer(transform, translateX(-50%), webkit moz ms spec);
-      &.point-up {
-        @include prefixer(transform, rotate(180deg) translateX(50%), webkit moz ms spec);
+      em {
+        position: absolute;
+        bottom: -4rem;
+        font-size: 3rem;
+        transition: 300ms ease;
+        left: 50%;
+        @include prefixer(transform, translateX(-50%), webkit moz ms spec);
+        &.point-up {
+          @include prefixer(transform, rotate(180deg) translateX(50%), webkit moz ms spec);
+        }
       }
     }
   }
@@ -3244,7 +3259,65 @@ label.error {
       }
     }
   }
+  // These are ridiculous. We are now attaching unecessary CSS to hardcoded product.handle
+  // Lets see some data regarding these changing color cart buttons.
+  &.silly-mega-button--chipotle-bbq {
+    p { border-color: $customProductBaseColor-chipotleBBQ;
+      &::before, &::after { color: $customProductBaseColor-chipotleBBQ; }
+      a, i { background-color: $customProductBaseColor-chipotleBBQ; }
+    }
+  }
+  &.silly-mega-button--chorizo-lime {
+    p { border-color: $customProductBaseColor-chorizoLime;
+      &::before, &::after { color: $customProductBaseColor-chorizoLime; }
+      a, i { background-color: $customProductBaseColor-chorizoLime; }
+    }
+  }
+  &.silly-mega-button--hatch-green-chile {
+    p { border-color: $customProductBaseColor-hatchGreenChile;
+      &::before, &::after { color: $customProductBaseColor-hatchGreenChile; }
+      a, i { background-color: $customProductBaseColor-hatchGreenChile; }
+    }
+  }
+  &.silly-mega-button--hickory-peach-bbq {
+    p { border-color: $customProductBaseColor-hickoryPeachBBQ;
+      &::before, &::after { color: $customProductBaseColor-hickoryPeachBBQ; }
+      a, i { background-color: $customProductBaseColor-hickoryPeachBBQ; }
+    }
+  }
+  &.silly-mega-button--honey-bourbon {
+    p { border-color: $customProductBaseColor-honeyBourbon;
+      &::before, &::after { color: $customProductBaseColor-honeyBourbon; }
+      a, i { background-color: $customProductBaseColor-honeyBourbon; }
+    }
+  }
+  &.silly-mega-button--hot-spicy {
+    p { border-color: $customProductBaseColor-hotSpicy;
+      &::before, &::after { color: $customProductBaseColor-hotSpicy; }
+      a, i { background-color: $customProductBaseColor-hotSpicy; }
+    }
+  }
+  &.silly-mega-button--original-recipe {
+    p { border-color: $customProductBaseColor-originalRecipe;
+      &::before, &::after { color: $customProductBaseColor-originalRecipe; }
+      a, i { background-color: $customProductBaseColor-originalRecipe; }
+    }
+  }
+  &.silly-mega-button--tomato-basil {
+    p { border-color: $customProductBaseColor-tomatoBasil;
+      &::before, &::after { color: $customProductBaseColor-tomatoBasil; }
+      a, i { background-color: $customProductBaseColor-tomatoBasil; }
+    }
+  }
+  &.silly-mega-button--traditional-sea-salt {
+    p { border-color: $customProductBaseColor-traditionalSeaSalt;
+      &::before, &::after { color: $customProductBaseColor-traditionalSeaSalt; }
+      a, i { background-color: $customProductBaseColor-traditionalSeaSalt; }
+    }
+  }
 }
+
+
 
 #hero-carousel {
   padding: 0;
