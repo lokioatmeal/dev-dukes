@@ -138,7 +138,7 @@ We are manually hiding the ability to purchase temporarily.
 XXXXXXXXXX
 {% endcomment %}
 
-            <h4 style="color:#{{ product.metafields.supercustom.hexcolor }};border-color:#{{ product.metafields.supercustom.hexcolor }};">Available Soon</h4>
+            <div class="silly-mega-button silly-mega-button--{{ product.handle | remove: '-3-packs' }}"><p><a href="#" class="btn btn--alt">Add To Cart</a></p></div>
 
           </div>
           <div class="product-description rte" itemprop="description">
@@ -232,7 +232,7 @@ XXXXXXXXXX
         <p>* Federal regulations prohibit the use of hormones in {{ whichmeat }}. ** Except for those naturally occurring in sea salt and celery powder.</p>
       </div>
       {% endunless %}
-      <div class="silly-mega-button">
+      <div class="silly-mega-button silly-mega-button--toggler">
         <p><a href="#" class="btn btn--alt"><span>View</span> Full Nutitionals<br class="medium-down--show" /> & Ingredients</a></p>
         <em class="icon icon-arrow-down"></em>
       </div>
