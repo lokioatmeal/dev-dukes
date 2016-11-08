@@ -227,12 +227,11 @@ $socialIconFontStack: 'icons';
   background-image: url('{{ "zig-zag-background.png" | asset_url }}');
   background-position: center center;
   background-repeat: repeat;
-}
-
-@mixin zigzaglighter() {
-  background-image: url('{{ "zig-zag-background-lighter.png" | asset_url }}');
-  background-position: center center;
-  background-repeat: repeat;
+  background-size: 20%;
+  @include at-query ($min, $large) {
+    // background-size: auto;
+    background-size: 8%;
+  }
 }
 
 /*============================================================================
@@ -2455,51 +2454,6 @@ label.error {
           }
         }
       }
-      .slick-arrow {
-        position: absolute;
-        cursor: pointer;
-        z-index: 99;
-        bottom: -2rem;
-        // @include at-query($min, $large) {
-        //   bottom: -2.5rem;
-        // }
-        @include at-query($min, $large) {
-          bottom: initial;
-          top: 50%;
-          @include prefixer(transform, translateY(-50%), webkit moz ms spec);
-        }
-        span {
-          font-size: 2rem;
-          line-height: 1;
-          opacity: 0.5;
-          @include at-query($min, $large) {
-            font-size: 3rem;
-          }
-        }
-        &:hover {
-          span {
-            opacity: 1;
-          }
-        }
-        &.slick-prev {
-          left: 1rem;
-          @include at-query($min, $large) {
-            left: -4rem;
-          }
-          span {
-            @include prefixer(transform, rotate(90deg), webkit moz ms spec);
-          }
-        }
-        &.slick-next {
-          right: 1rem;
-          @include at-query($min, $large) {
-            right: -4rem;
-          }
-          span {
-            @include prefixer(transform, rotate(-90deg), webkit moz ms spec);
-          }
-        }
-      }
       .slick-dots {
         position: absolute;
         display: block;
@@ -3439,8 +3393,7 @@ label.error {
   }
   .hero-carousel__item {
     padding: 0;
-    @include zigzaglighter();
-    // @include zigzag();
+    @include zigzag();
     a {
       outline: none;
       img {
@@ -3461,8 +3414,7 @@ label.error {
         width: 100%;
         height: 0.25rem;
         background-color: #cb4433;
-        @include zigzaglighter();
-        // @include zigzag();
+        @include zigzag();
         @include at-query($min, $large) {
           height: 1rem;
         }
@@ -3489,8 +3441,7 @@ label.error {
         width: 100%;
         height: 0.25rem;
         background-color: #cb4432;
-        @include zigzaglighter();
-        // @include zigzag();
+        @include zigzag();
         @include at-query($min, $large) {
           height: 1rem;
         }
@@ -3927,6 +3878,73 @@ label.error {
 }
 
 #ingredients {
+  #ingredients-hero-video-container {
+    display: none;
+    position: relative;
+    background: transparent url('{{ "ingredients-hero-background.jpg" | asset_url }}') center center no-repeat;
+    background-size: cover;
+    &::before {
+      // This is not working. Maybe because it is on a video iframe container. Debug later.
+      // position: absolute;
+      // display: block;
+      // content: '';
+      // top: 0;
+      // box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
+    }
+    iframe {
+    }
+    .ingredients-hero-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      text-align: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .wrapper {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
+        p {
+          font-family: $headerFontStack;
+          font-size: 1.1rem;
+          font-weight: 700;
+          line-height: 1.1;
+          text-transform: uppercase;
+          color: #fff;
+          &::before {
+            display: block;
+            content: "";
+            margin: 10px auto 0 auto;
+            padding-top: 10px;
+            border-top: 2px solid #fff;
+            width: 20%;
+          }
+          @include at-query($min, $large) {
+            font-size: 2.5rem;
+            &::before {
+              margin: 2rem auto 0 auto;
+              padding-top: 2rem;
+            }
+          }
+        }
+        // @include at-query($min, $large) {
+        //   position: absolute;
+        //   width: 90vw;
+        //   top: 50%;
+        //   left: 50%;
+        //   @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
+        // }
+      }
+      // @include at-query($min, $large) {
+      //   min-height: 700px;
+      // }
+    }
+  }
+
   .ingredients-hero-container {
     position: relative;
     margin: 2rem auto 0 auto;
@@ -3967,6 +3985,9 @@ label.error {
       min-height: 700px;
     }
   }
+
+
+
   .ingredients-lead-container {
     p {
       text-align: center;
@@ -3984,6 +4005,7 @@ label.error {
     }
   }
   .hatch-nm-vdeo-container {
+    text-align: center;
     margin-bottom: 2rem;
     .wrapper {
       max-width: 1024px;
@@ -3992,12 +4014,13 @@ label.error {
       font-family: $altHeaderFontStack;
       font-size: 1.5rem;
       line-height: 1.1;
-      @include at-query($min, $large) {
-        margin-top: 2rem;
-      }
+      margin-top: 2rem;
     }
     p {
       font-family: $altFontStack;
+    }
+    @include at-query($min, $large) {
+      text-align: left;
     }
   }
   .ingredients-product-container {
@@ -4166,6 +4189,10 @@ label.error {
 
 #process {
   .process-hero-container {
+  }
+  #process-hero-video-container {
+    margin: 1rem auto;
+    max-width: 1024px;
   }
   .wrapper-duct-tape {
     padding: 0 1rem;

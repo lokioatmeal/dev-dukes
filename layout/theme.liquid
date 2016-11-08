@@ -321,6 +321,9 @@ XXXXXXXXXX
   {{ 'slick.min.js' | asset_url | script_tag }}
   {{ 'fastclick.min.js' | asset_url | script_tag }}
   {{ 'timber.js' | asset_url | script_tag }}
+  {% if template == 'page.ingredients' || template == 'page.process' %}
+  <script src="//player.vimeo.com/api/player.js"></script>
+  {% endif %}
 
   {% comment %}
     Template-specific js

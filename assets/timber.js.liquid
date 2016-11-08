@@ -506,6 +506,7 @@ dukes.init = function () {
   dukes.randoPreFooters();
   dukes.productNutritionalsToggle();
   dukes.doCarousels();
+  dukes.setUpIngredientsVideo();
 };
 
 dukes.productNutritionalsToggle = function() {
@@ -561,9 +562,7 @@ dukes.doCarousels = function() {
 
   $('#shorty-collection-carousel').slick({
   // $('.collection-carousel').slick({
-    prevArrow: "<div class='icon-fallback-text slick-prev'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Previous</span></div>",
-    nextArrow: "<div class='icon-fallback-text slick-next'><span class='icon icon-arrow-down'></span><span class='fallback-text'>Next</span></div>",
-    arrows: true,
+    arrows: false,
     centerMode: true,
     centerPadding: 0,
     infinite: true,
@@ -572,12 +571,15 @@ dukes.doCarousels = function() {
     autoplaySpeed: 3050,
     speed: 1000,
     dots: true,
+    // focusOnSelect: true,
+    pauseOnHover: false,
     // slidesToScroll: 5,
     slidesToShow: 3
   });
 
   $('#strips-collection-carousel').slick({
   // $('.collection-carousel').slick({
+    arrows: false,
     centerMode: true,
     centerPadding: 0,
     infinite: false,
@@ -589,6 +591,14 @@ dukes.doCarousels = function() {
     slidesToShow: 3
   });
 
+}
+
+dukes.setUpIngredientsVideo = function() {
+  var myVimeo = $('.hero-video-container iframe');
+  var myVPlayer = new Vimeo.Player(myVimeo);
+  myVPlayer.setVolume(0).then(function() {
+    // myVPlayer.play();
+  });
 }
 
 // Initialize Duke’s's JS on docready
