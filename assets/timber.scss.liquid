@@ -3878,74 +3878,55 @@ label.error {
 }
 
 #ingredients {
-  #ingredients-hero-video-container {
-    display: none;
+  #ingredients-hero-container {
     position: relative;
-    background: transparent url('{{ "ingredients-hero-background.jpg" | asset_url }}') center center no-repeat;
-    background-size: cover;
-    &::before {
-      // This is not working. Maybe because it is on a video iframe container. Debug later.
-      // position: absolute;
-      // display: block;
-      // content: '';
-      // top: 0;
-      // box-shadow: inset 0 1rem 1rem 0 rgba(0,0,0,0.2), inset 0 0.2rem 0.2rem 0 rgba(0,0,0,0.2);
-    }
-    iframe {
-    }
-    .ingredients-hero-container {
+    text-align: center;
+    video {
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      text-align: center;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      .wrapper {
-        position: absolute;
-        width: 100%;
-        top: 50%;
-        left: 50%;
-        @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
-        p {
-          font-family: $headerFontStack;
-          font-size: 1.1rem;
-          font-weight: 700;
-          line-height: 1.1;
-          text-transform: uppercase;
-          color: #fff;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
+      &.peekaboo {
+        opacity: 1;
+      }
+    }
+    .poster {
+      width: 100%;
+    }
+    .wrapper {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
+      p {
+        font-family: $headerFontStack;
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1.1;
+        text-transform: uppercase;
+        color: #fff;
+        &::before {
+          display: block;
+          content: "";
+          margin: 10px auto 0 auto;
+          padding-top: 10px;
+          border-top: 2px solid #fff;
+          width: 20%;
+        }
+        @include at-query($min, $large) {
+          font-size: 2.5rem;
           &::before {
-            display: block;
-            content: "";
-            margin: 10px auto 0 auto;
-            padding-top: 10px;
-            border-top: 2px solid #fff;
-            width: 20%;
-          }
-          @include at-query($min, $large) {
-            font-size: 2.5rem;
-            &::before {
-              margin: 2rem auto 0 auto;
-              padding-top: 2rem;
-            }
+            margin: 2rem auto 0 auto;
+            padding-top: 2rem;
           }
         }
-        // @include at-query($min, $large) {
-        //   position: absolute;
-        //   width: 90vw;
-        //   top: 50%;
-        //   left: 50%;
-        //   @include prefixer(transform, translate(-50%, -50%), webkit moz ms spec);
-        // }
       }
-      // @include at-query($min, $large) {
-      //   min-height: 700px;
-      // }
     }
   }
 
   .ingredients-hero-container {
+    display: none;
     position: relative;
     margin: 2rem auto 0 auto;
     padding: 250px 0 2rem 0;

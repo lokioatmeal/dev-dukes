@@ -594,11 +594,23 @@ dukes.doCarousels = function() {
 }
 
 dukes.setUpIngredientsVideo = function() {
-  var myVimeo = $('.hero-video-container iframe');
-  var myVPlayer = new Vimeo.Player(myVimeo);
-  myVPlayer.setVolume(0).then(function() {
-    // myVPlayer.play();
+  var $myHeroVideo = $('#ingredients-hero-container video');
+  $myHeroVideo.on('canplaythrough', function() {
+    $myHeroVideo.addClass('peekaboo');
+    $myHeroVideo[0].play();
   });
+  // var myHeroVideo = $('#ingredients-hero-container video');
+  // var myVdieoSrc = myHeroVideo[0];
+  // if (myVdieoSrc.readyState >= myVdieoSrc.HAVE_FUTURE_DATA) {
+  //   myHeroVideo.addClass('peekaboo');
+  //   myVdieoSrc.play();
+  // }
+  // else {
+  //   myVdieoSrc.addEventListener('canplay', function () {
+  //     myHeroVideo.addClass('peekaboo');
+  //     myVdieoSrc.play();
+  //   }, false);
+  // }
 }
 
 // Initialize Duke’s's JS on docready

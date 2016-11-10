@@ -1,16 +1,12 @@
 <!-- /templates/page.ingredients.liquid -->
 
-<div id="ingredients-hero-video-container" class="hero-video-container">
-  <iframe src="//player.vimeo.com/video/190647384?title=0&byline=0&portrait=0&loop=true" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-  <div class="ingredients-hero-container">
-    <div class="wrapper">
-      {{ 'ingredients-hero-headline.png' | asset_url | img_tag: 'We are on a mission' }}
-      <p>to Craft ridiculously flavorful smoked meats with the freshest ingredients possible</p>
-    </div>
-  </div>
-</div>
-
-<div class="ingredients-hero-container">
+<div id="ingredients-hero-container" class="hero-video-container">
+  <video width="100%" loop>
+    <source src="{{ 'ingredients-hero-bkg.mp4' | asset_url }}" type="video/mp4" />
+    <source src="{{ 'ingredients-hero-bkg.webm' | asset_url }}" type="video/webm" />
+    {{ 'ingredients-hero-background.jpg' | asset_url | img_tag }}
+  </video>
+  <img src="{{ 'ingredients-hero-background.jpg' | asset_url }}" class="poster" />
   <div class="wrapper">
     {{ 'ingredients-hero-headline.png' | asset_url | img_tag: 'We are on a mission' }}
     <p>to Craft ridiculously flavorful smoked meats with the freshest ingredients possible</p>
@@ -117,8 +113,8 @@
 
     <div class="ingredients-product-container__copy-box">
       <div>
-        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Fresh Cilantro<br /> & Real Lime Juice</h3>
-        <p class="lead">Many folks just mix dried spices into the Chorizo sausages. But, if you haven’t learned yet, we don’t do it like everyone else. Each small batch of our Chorizo & Lime Smoked Shorty® Sausages has real, squeezed lime juice and roughly 15lbs of fresh cilantro per batch.</p>
+        <h3 style="color:#{{ this_product.metafields.supercustom.hexcolor }};">Freshly Chopped Cilantro<br /> & Real Lime Juice</h3>
+        <p class="lead">Many folks just mix dried spices into the Chorizo sausages. But, if you haven’t learned yet, we don’t do it like everyone else. Each small batch of our Chorizo & Lime Smoked Shorty® Sausages has real, squeezed lime juice and roughly 15lbs of freshly chopped cilantro per batch.</p>
         {{ 'ingredients-product-chorizo-lime.png' | asset_url | img_tag }}
       </div>
     </div>
